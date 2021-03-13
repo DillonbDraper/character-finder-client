@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import "./Auth.css";
 
 export const Login = () => {
-  const email = useRef();
+  const username = useRef();
   const password = useRef();
   const invalidDialog = useRef();
   const history = useHistory();
@@ -16,7 +16,7 @@ export const Login = () => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        username: email.current.value,
+        username: username.current.value,
         password: password.current.value,
       }),
     })
@@ -46,14 +46,14 @@ export const Login = () => {
           <h1>Welcome To Lithub!</h1>
           <h2>Please sign in</h2>
           <fieldset>
-            <label htmlFor="inputEmail"> Email address </label>
+            <label htmlFor="inputEmail"> Username </label>
             <input
-              ref={email}
-              type="email"
-              id="email"
+              ref={username}
+              type="username"
+              id="username"
               className="form-control"
-              defaultValue="test@test.com"
-              placeholder="Email address"
+              defaultValue="bookreader"
+              placeholder="reader"
               required
               autoFocus
             />
