@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { FictionContext } from "../fictions/FictionProvider";
 
 export const CharacterContext = React.createContext();
 
@@ -62,9 +63,9 @@ export const CharacterProvider = props => {
 		.then(getCharacters)
 	}
 
-	return <CategoryContext.Provider value = {{
+	return <CharacterContext.Provider value = {{
         characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter,  getAuthorbyId
 }}>
 		{props.children}
-	</CategoryContext.Provider>
+	</CharacterContext.Provider>
 }

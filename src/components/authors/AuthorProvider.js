@@ -62,9 +62,9 @@ export const AuthorProvider = props => {
 		.then(getAuthors)
 	}
 
-	return <CategoryContext.Provider value = {{
+	return <AuthorContext.Provider value = {{
         authors, setAuthors, deleteAuthor, updateAuthor, addAuthor, setAuthor, author, getAuthorById
 }}>
 		{props.children}
-	</CategoryContext.Provider>
+	</AuthorContext.Provider>
 }
