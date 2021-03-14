@@ -51,7 +51,7 @@ export const FictionProvider = props => {
 	}
 
 	const updateFiction = (fiction) => {
-		return fetch(`http://localhost:8000/fictions/${author.id}`, {
+		return fetch(`http://localhost:8000/fictions/${fiction.id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",

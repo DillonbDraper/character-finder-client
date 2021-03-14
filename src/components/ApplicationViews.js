@@ -1,17 +1,19 @@
 import React, { useContext, useEffect } from "react"
 import { Route } from "react-router-dom"
-import "./AppViews.css"
+import { CharacterProvider } from "./characters/CharacterProvider"
+import { CharacterList } from "./characters/CharacterList"
 
 export const ApplicationViews = (props) => {
     return (
 
         <>
 
-                                <Route exact path="/" render={
-                                    props =>
-                                    <CharacterList {...props} />
-                                } />
-
+            <CharacterProvider>
+                <Route exact path="/" render={
+                    () =>
+                        <CharacterList />
+                } />
+            </CharacterProvider>
 
         </>
     )
