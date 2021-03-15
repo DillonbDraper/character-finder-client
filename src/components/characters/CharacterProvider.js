@@ -21,7 +21,7 @@ export const CharacterProvider = props => {
 	}
 
 	const getCharactersWithParams = (querystring) => {
-		return fetch(`http://localhost:8000/characters${querystring}`, {
+		return fetch(`http://localhost:8000/characters?${querystring}`, {
 			headers: {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
               }

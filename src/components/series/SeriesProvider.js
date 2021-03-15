@@ -63,7 +63,7 @@ export const SeriesProvider = props => {
 	}
 
 	return <SeriesContext.Provider value = {{
-        series, setSeries, seriesSet, deleteSeries, updateSeries, addSeries, setSeriesSet,  getSeriesById
+        series, setSeries, seriesSet, deleteSeries, updateSeries, addSeries, setSeriesSet,  getSeriesById, getSeries
 }}>
 		{props.children}
 	</SeriesContext.Provider>

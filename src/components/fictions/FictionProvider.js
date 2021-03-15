@@ -63,7 +63,7 @@ export const FictionProvider = props => {
 	}
 
 	return <FictionContext.Provider value = {{
-        fictions, setFictions, fiction, deleteFiction, updateFiction, addFiction, setFiction,  getFictionById
+        fictions, setFictions, fiction, deleteFiction, updateFiction, addFiction, setFiction,  getFictionById, getFictions
 }}>
 		{props.children}
 	</FictionContext.Provider>

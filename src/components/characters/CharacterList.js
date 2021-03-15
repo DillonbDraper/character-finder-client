@@ -19,9 +19,9 @@ import Button from '@material-ui/core/Button';
 
 
 export const CharacterList = () => {
-  const { characters, filteredCharacters, getCharacters, getCharactersWithParams } = useContext(CharacterContext)
+  const { characters, filteredCharacters, setFilteredCharacters, getCharacters, getCharactersWithParams } = useContext(CharacterContext)
   const { getFictions, fictions } = useContext(FictionContext)
-  const { getSeries, series } = useContext(SeriesContext)
+  const { getSeries, seriesSet } = useContext(SeriesContext)
   const { getAuthors, authors } = useContext(AuthorContext)
 
   const [characterValue, setCharacterValue] = useState(null)
@@ -38,12 +38,16 @@ export const CharacterList = () => {
 
 
   useEffect(() => {
-    getCharacters().then(getFictions).then(getSeries).then(getAuthors).then(() => {
-      console.log(characters)
+    getAuthors().then(getFictions).then(getSeries).then(getCharacters).then(() => {
     })
   }, [])
 
   useEffect(() => {
+    setFilteredCharacters([...characters])
+  }, [characters])
+
+  useEffect(() => {
+
   }, [filteredCharacters])
 
 
@@ -64,10 +68,6 @@ export const CharacterList = () => {
       },
     },
   }))(TableRow);
-
-  function createData(name, alias, appearsIn, createdBy, series = null) {
-    return { name, alias, appearsIn, createdBy, series };
-  }
 
 
   const useStyles = makeStyles({
@@ -105,7 +105,7 @@ export const CharacterList = () => {
           onInputChange={(event, newInputValue) => {
             setCharacterInputValue(newInputValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Position" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} label="Character" variant="outlined" />}
         />
 
         <Autocomplete
@@ -132,7 +132,7 @@ export const CharacterList = () => {
           onInputChange={(event, newInputValue) => {
             setFictionInputValue(newInputValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Position" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} label="Book" variant="outlined" />}
         />
 
         <Autocomplete
@@ -159,12 +159,12 @@ export const CharacterList = () => {
           onInputChange={(event, newInputValue) => {
             setAuthorInputValue(newInputValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Position" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} label="Author" variant="outlined" />}
         />
 
         <Autocomplete
           id="series"
-          options={series}
+          options={seriesSet}
           getOptionLabel={(ser) => {
             if (!ser.title || ser === {}) {
               return ""
@@ -186,13 +186,31 @@ export const CharacterList = () => {
           onInputChange={(event, newInputValue) => {
             setSeriesInputValue(newInputValue);
           }}
-          renderInput={(params) => <TextField {...params} label="Position" variant="outlined" />}
+          renderInput={(params) => <TextField {...params} label="Series" variant="outlined" />}
         />
 
         <Button onClick={() => {
-          const nameQueryStarter = "?name="
-          const fullNameQuery = nameQueryStarter + characterValue.name
-          getCharactersWithParams(fullNameQuery)
+          let queryBuilder = ""
+          if (characterValue !== null) {
+            queryBuilder+= `name=${characterValue.name}&`
+          }
+
+
+          if (authorValue !== null) {
+            queryBuilder+= `author=${authorValue.id}&`
+          }
+
+          if (fictionValue !== null) {
+            queryBuilder+= `fiction=${fictionValue.id}&`
+          }
+
+          if (seriesValue !== null) {
+            queryBuilder+= `series=${seriesValue.id}`
+          }
+
+
+          getCharactersWithParams(queryBuilder)
+          
         }}>Search</Button>
 
       </Container>
@@ -208,17 +226,7 @@ export const CharacterList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCharacters.length < 1 ? characters.map((character) => (
-              <StyledTableRow key={character.id}>
-                <StyledTableCell component="th" scope="row">
-                  {character.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">{character.alias}</StyledTableCell>
-                <StyledTableCell align="right">{character.works[0] ? character.works[0].title : "NA"}</StyledTableCell>
-                <StyledTableCell align="right">{character.creators[0] ? character.creators[0].name : "NA"}</StyledTableCell>
-                <StyledTableCell align="right">{character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
-              </StyledTableRow>
-            )) : filteredCharacters.map((character) => (
+            {filteredCharacters.map((character) => (
               <StyledTableRow key={character.id}>
                 <StyledTableCell component="th" scope="row">
                   {character.name}
