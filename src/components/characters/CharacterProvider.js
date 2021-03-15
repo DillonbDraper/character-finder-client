@@ -6,6 +6,7 @@ export const CharacterContext = React.createContext();
 export const CharacterProvider = props => {
 
 	const [characters, setCharacters] = useState([])
+	const [filteredCharacters, setFilteredCharacters] = useState([])
 	const [character, setCharacter] = useState([])
 
 
@@ -17,6 +18,16 @@ export const CharacterProvider = props => {
 		})
 		.then(res => res.json())
 		.then(setCharacters);
+	}
+
+	const getCharactersWithParams = (querystring) => {
+		return fetch(`http://localhost:8000/characters?${querystring}`, {
+			headers: {
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+              }
+		})
+		.then(res => res.json())
+		.then(setFilteredCharacters);
 	}
 
 	const addCharacter = character => {
@@ -31,7 +42,7 @@ export const CharacterProvider = props => {
 		.then(getCharacters)
 	}
 
-    const getAuthorbyId = id => {
+    const getCharacterById = id => {
         return fetch(`http://localhost:8000/characters/${id}`, {
             headers: {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
@@ -52,7 +63,7 @@ export const CharacterProvider = props => {
 	}
 
 	const updateCharacter = (character) => {
-		return fetch(`http://localhost:8000/characters/${author.id}`, {
+		return fetch(`http://localhost:8000/characters/${character.id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
@@ -64,7 +75,8 @@ export const CharacterProvider = props => {
 	}
 
 	return <CharacterContext.Provider value = {{
-        characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter,  getAuthorbyId
+        characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
+		filteredCharacters, setFilteredCharacters
 }}>
 		{props.children}
 	</CharacterContext.Provider>

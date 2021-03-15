@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Navbar = () => {
   const classes = useStyles();
+  const history = useHistory()
 
   return (
     <div className={classes.root}>
@@ -27,10 +29,15 @@ export const Navbar = () => {
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            News
+          <Typography variant="h5" className={classes.title}>
+            Lithub
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button onClick={() => history.push('/creation-hub')} color="inherit">Create!</Button>
+          <Button onClick={() => history.push('/')} color="inherit">Home</Button>
+          <Button onClick={() => {
+            localStorage.removeItem("app_user")
+            history.push("/login")
+          }} color="inherit">Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

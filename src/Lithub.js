@@ -6,15 +6,16 @@ import { Login } from "./components/auth/Login.js"
 import { Register } from "./components/auth/Register.js"
 
 
-export const Lithub = () => (
+function Lithub()  { 
+  return (
     <>
         <Route render={() => {
             if (localStorage.getItem("app_user")) {
-                return <>
+                return ( <>
                     <Navbar />
-                    {/* <ApplicationViews /> */}
+                    <ApplicationViews />
                 </>
-            } else {
+                )} else {
                 return <Redirect to="/login" />
             }
         }} />
@@ -35,4 +36,7 @@ export const Lithub = () => (
             }
         }} />
     </>
+
 )
+      }
+export default Lithub;

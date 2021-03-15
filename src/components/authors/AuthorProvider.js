@@ -15,7 +15,8 @@ export const AuthorProvider = props => {
               }
 		})
 		.then(res => res.json())
-		.then(setAuthors);
+		.then(res =>setAuthors(res.results))
+		;
 	}
 
 	const addAuthor = author => {
@@ -63,7 +64,7 @@ export const AuthorProvider = props => {
 	}
 
 	return <AuthorContext.Provider value = {{
-        authors, setAuthors, deleteAuthor, updateAuthor, addAuthor, setAuthor, author, getAuthorById
+        authors, setAuthors, deleteAuthor, updateAuthor, addAuthor, setAuthor, author, getAuthorById, getAuthors
 }}>
 		{props.children}
 	</AuthorContext.Provider>
