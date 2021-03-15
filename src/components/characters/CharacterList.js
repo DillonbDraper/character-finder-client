@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CharacterContext } from "./CharacterProvider.js"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,93 +9,133 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Button from '@material-ui/core/Button';
+
 
 
 export const CharacterList = () => {
-    const { characters, getCharacters } = useContext(CharacterContext)
-    const params = useParams()
+  const { characters, filteredCharacters, getCharacters, getCharactersWithParams } = useContext(CharacterContext)
+  const [characterValue, setCharacterValue] = useState(null)
+  const [inputValue, setInputValue] = React.useState('')
 
-    useEffect(() => {
-        getCharacters()
-    }, [])
+  const params = useParams()
+  const history = useHistory()
 
-    useEffect(() => {
-        getCharacters()
-    }, [params])
+  useEffect(() => {
+    getCharacters()
+  }, [])
 
-    const handleChange = e => {
-    }
+  useEffect(() => {
+  }, [filteredCharacters])
 
-    const handleSubmit = e => {
-    }
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+  const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
     },
-  },
-}))(TableRow);
+    body: {
+      fontSize: 14,
+    },
+  }))(TableCell);
 
-function createData(name, alias, appearsIn, createdBy, series=null) {
-  return { name, alias, appearsIn, createdBy, series };
-}
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  function createData(name, alias, appearsIn, createdBy, series = null) {
+    return { name, alias, appearsIn, createdBy, series };
+  }
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-});
+
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 700,
+    },
+  });
 
   const classes = useStyles();
 
   return (
-      <>
-      <h1>Hello</h1>
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Name</StyledTableCell>
-            <StyledTableCell align="right">Alias(es)</StyledTableCell>
-            <StyledTableCell align="right">Appears In</StyledTableCell>
-            <StyledTableCell align="right">Created By</StyledTableCell>
-            <StyledTableCell align="right">Series</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {characters.map((character) => (
-            <StyledTableRow key={character.id}>
-              <StyledTableCell component="th" scope="row">
-                {character.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{character.alias}</StyledTableCell>
-              <StyledTableCell align="right">{character.works[0] ? character.works[0].title : "NA"}</StyledTableCell>
-              <StyledTableCell align="right">{character.creators[0] ? character.creators[0].name : "NA"}</StyledTableCell>
-              <StyledTableCell align="right">{character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '10vh' }}>
+        <Autocomplete
+          id="positions"
+          options={characters}
+          getOptionLabel={(char) => {
+            if (!char.name || char === {}) {
+              return ""
+            } else {
+              return char.name
+            }
+          }
+          }
+          getOptionSelected={(character, characterValue) => character === characterValue}
+          style={{
+            width: 300,
+          }}
+          value={characterValue}
+          onChange={(event, newValue) => {
+            setCharacterValue(newValue);
+          }}
+
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          renderInput={(params) => <TextField {...params} label="Position" variant="outlined" />}
+        />
+
+        <Button onClick={() => {
+          const nameQueryStarter = "?name="
+          const fullNameQuery = nameQueryStarter + characterValue.name
+          getCharactersWithParams(fullNameQuery)
+        }}>Search</Button>
+
+      </Container>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell align="right">Alias(es)</StyledTableCell>
+              <StyledTableCell align="right">Appears In</StyledTableCell>
+              <StyledTableCell align="right">Created By</StyledTableCell>
+              <StyledTableCell align="right">Series</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredCharacters.length < 1 ? characters.map((character) => (
+              <StyledTableRow key={character.id}>
+                <StyledTableCell component="th" scope="row">
+                  {character.name}
+                </StyledTableCell>
+                <StyledTableCell align="right">{character.alias}</StyledTableCell>
+                <StyledTableCell align="right">{character.works[0] ? character.works[0].title : "NA"}</StyledTableCell>
+                <StyledTableCell align="right">{character.creators[0] ? character.creators[0].name : "NA"}</StyledTableCell>
+                <StyledTableCell align="right">{character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
+              </StyledTableRow>
+            )) : filteredCharacters.map((character) => (
+              <StyledTableRow key={character.id}>
+                <StyledTableCell component="th" scope="row">
+                  {character.name}
+                </StyledTableCell>
+                <StyledTableCell align="right">{character.alias}</StyledTableCell>
+                <StyledTableCell align="right">{character.works[0] ? character.works[0].title : "NA"}</StyledTableCell>
+                <StyledTableCell align="right">{character.creators[0] ? character.creators[0].name : "NA"}</StyledTableCell>
+                <StyledTableCell align="right">{character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

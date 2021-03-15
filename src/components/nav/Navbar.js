@@ -32,6 +32,7 @@ export const Navbar = () => {
           <Typography variant="h5" className={classes.title}>
             Lithub
           </Typography>
+          <Button onClick={() => history.push('/creation-hub')} color="inherit">Create!</Button>
           <Button onClick={() => history.push('/')} color="inherit">Home</Button>
           <Button onClick={() => {
             localStorage.removeItem("app_user")

@@ -6,6 +6,7 @@ export const CharacterContext = React.createContext();
 export const CharacterProvider = props => {
 
 	const [characters, setCharacters] = useState([])
+	const [filteredCharacters, setFilteredCharacters] = useState([])
 	const [character, setCharacter] = useState([])
 
 
@@ -17,6 +18,16 @@ export const CharacterProvider = props => {
 		})
 		.then(res => res.json())
 		.then(setCharacters);
+	}
+
+	const getCharactersWithParams = (querystring) => {
+		return fetch(`http://localhost:8000/characters${querystring}`, {
+			headers: {
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+              }
+		})
+		.then(res => res.json())
+		.then(setFilteredCharacters);
 	}
 
 	const addCharacter = character => {
@@ -64,7 +75,8 @@ export const CharacterProvider = props => {
 	}
 
 	return <CharacterContext.Provider value = {{
-        characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById
+        characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
+		filteredCharacters, setFilteredCharacters
 }}>
 		{props.children}
 	</CharacterContext.Provider>
