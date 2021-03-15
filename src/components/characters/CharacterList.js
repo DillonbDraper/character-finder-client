@@ -4,6 +4,7 @@ import { FictionContext } from "../fictions/FictionProvider.js"
 import { AuthorContext } from "../authors/AuthorProvider.js"
 import { SeriesContext } from "../series/SeriesProvider.js"
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -23,6 +24,8 @@ export const CharacterList = () => {
   const { getFictions, fictions } = useContext(FictionContext)
   const { getSeries, seriesSet } = useContext(SeriesContext)
   const { getAuthors, authors } = useContext(AuthorContext)
+
+  const history = useHistory()
 
   const [characterValue, setCharacterValue] = useState(null)
   const [characterInputValue, setCharacterInputValue] = useState('')
@@ -210,7 +213,7 @@ export const CharacterList = () => {
 
 
           getCharactersWithParams(queryBuilder)
-          
+
         }}>Search</Button>
 
       </Container>
@@ -228,7 +231,7 @@ export const CharacterList = () => {
           <TableBody>
             {filteredCharacters.map((character) => (
               <StyledTableRow key={character.id}>
-                <StyledTableCell component="th" scope="row">
+                <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characterId/${character.id}`)}>
                   {character.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{character.alias}</StyledTableCell>

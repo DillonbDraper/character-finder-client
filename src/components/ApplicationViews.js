@@ -30,7 +30,7 @@ export const ApplicationViews = (props) => {
                                     <CharacterList />
                             } />
 
-                            <Route exact path="/characters:character_id(\d+)/" render={
+                            <Route exact path="/characters:characterId(\d+)/" render={
                                 () =>
                                     <CharacterDetail />
                             } />
