@@ -47,20 +47,20 @@ export const CreationHub = () => {
 
 
         </Typography>
-            <Button variant="contained" color="primary" onClick={history.push('/series-form')}>
+            <Button variant="contained" color="primary" onClick={() => history.push('/series-form')}>
                 Add Series
              </Button>
 
-            <Button variant="contained" color="secondary" onClick={history.push('/author-form')}>
+            <Button variant="contained" color="secondary" onClick={() => history.push('/author-form')}>
                 Add Author
             </Button>
 
-            <PurpleColorButton variant="contained" color="primary" onClick={history.push('/book-form')}>
+            <PurpleColorButton variant="contained" color="primary" onClick={() => history.push('/book-form')}>
                 Add Book
             </PurpleColorButton>
 
-            <GreenColorButton variant="contained" color="primary" onClick={history.push('/character-form')}>
-                Add Book
+            <GreenColorButton variant="contained" color="primary" onClick={() => history.push('/character-form')}>
+                Add Character
             </GreenColorButton>
 
 
