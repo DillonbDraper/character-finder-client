@@ -52,11 +52,35 @@ export const ApplicationViews = (props) => {
                                 () =>
                                     <SeriesDetail />
                             } />
+
+                            <Route exact path="/series-form" render={
+                                props =>
+                                    <SeriesForm {...props} />
+                            } />
+
+                            <Route exact path="/author-form" render={
+                                props =>
+                                    <AuthorForm {...props} />
+                            } />
+
+                            <Route exact path="/book-form" render={
+                                props =>
+                                    <FictionForm {...props} />
+                            } />
+
+                            <Route exact path="/character-form" render={
+                                props =>
+                                    <CharacterForm {...props} />
+                            } />
                         </SeriesProvider>
                     </FictionProvider>
                 </AuthorProvider>
             </CharacterProvider>
 
+            <Route exact path="/creation-hub" render={
+                () =>
+                    <CreationHub />
+            } />
         </>
     )
 }
