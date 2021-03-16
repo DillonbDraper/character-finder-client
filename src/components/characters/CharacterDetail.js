@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { CharacterContext } from "./CharacterProvider.js"
 import { useParams } from "react-router-dom"
 
-export const CharacterDetail = props => {
+export const CharacterDetail = () => {
 
     const params = useParams()
 

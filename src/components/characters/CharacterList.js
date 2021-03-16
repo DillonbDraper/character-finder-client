@@ -234,10 +234,19 @@ export const CharacterList = () => {
                 <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characters/${character.id}`)}>
                   {character.name}
                 </StyledTableCell>
-                <StyledTableCell align="right">{character.alias}</StyledTableCell>
-                <StyledTableCell align="right">{character.works[0] ? character.works[0].title : "NA"}</StyledTableCell>
-                <StyledTableCell align="right">{character.creators[0] ? character.creators[0].name : "NA"}</StyledTableCell>
-                <StyledTableCell align="right">{character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
+                <StyledTableCell align="right" >{character.alias}</StyledTableCell>
+                <StyledTableCell align="right" 
+                onClick={()=> history.push(`/fictions/${character.works[0].id}`)}>
+                  {character.works[0] ? character.works[0].title : "NA"}
+                  </StyledTableCell>
+                <StyledTableCell align="right" onClick={()=> history.push(`/authors/${character.creators[0].id}`)}>
+                  
+                  {character.creators[0] ? character.creators[0].name : "NA"}
+                  </StyledTableCell>
+
+                <StyledTableCell align="right" onClick={()=> history.push(`/series/${character.series[0].id}`)}>
+          
+                  {character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

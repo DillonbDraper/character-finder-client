@@ -36,13 +36,13 @@ export const ApplicationViews = (props) => {
                             } />
 
 
-                            <Route exact path="/authors:authorId(\d+)/" render={
+                            <Route exact path="/authors/:authorId(\d+)/" render={
                                 () =>
                                     <AuthorDetail />
                             } />
 
 
-                            <Route exact path="/fictions:fictionId(\d+)/" render={
+                            <Route exact path="/fictions/:fictionId(\d+)/" render={
                                 () =>
                                     <FictionDetail />
                             } />

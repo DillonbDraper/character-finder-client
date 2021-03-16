@@ -5,7 +5,7 @@ export const FictionContext = React.createContext();
 export const FictionProvider = props => {
 
 	const [fictions, setFictions] = useState([])
-	const [fiction, setFiction] = useState([])
+	const [fiction, setFiction] = useState({creators: [{name: ""}], series: {}, genre: {}})
 
 
 	const getFictions = () => {
