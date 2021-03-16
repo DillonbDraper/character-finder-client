@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CharacterContext } from "./CharacterProvider"
 import { useForm } from 'react-hook-form'
 import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
@@ -7,11 +8,12 @@ import Button from '@material-ui/core/Button';
 
 export const CharacterForm = props => {
 
-    const { register, handleSubmit, watch, errors } = useForm()
+    const { register, handleSubmit } = useForm()
+    const { addCharacter } = useContext(CharacterContext)
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
-            <form className="characterForm" onSubmit={handleSubmit((data) => console.log(data))}>
+            <form className="characterForm" onSubmit={handleSubmit((data) => addCharacter(data))}>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -20,6 +22,18 @@ export const CharacterForm = props => {
                     id="name"
                     label="Name:"
                     name="name"
+                    autoFocus
+                    inputRef={register}
+
+                />
+
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="alias"
+                    label="Alias (if any):"
+                    name="alias"
                     autoFocus
                     inputRef={register}
 
@@ -76,7 +90,7 @@ export const CharacterForm = props => {
                     inputRef={register}
 
                 />
-                <Button type="submit" color="primary">
+                <Button type="submit" variant="contained" color="secondary">
                     Submit
                 </Button>
 
