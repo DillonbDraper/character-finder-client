@@ -231,7 +231,7 @@ export const CharacterList = () => {
           <TableBody>
             {filteredCharacters.map((character) => (
               <StyledTableRow key={character.id}>
-                <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characterId/${character.id}`)}>
+                <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characters/${character.id}`)}>
                   {character.name}
                 </StyledTableCell>
                 <StyledTableCell align="right">{character.alias}</StyledTableCell>

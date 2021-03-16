@@ -30,25 +30,25 @@ export const ApplicationViews = (props) => {
                                     <CharacterList />
                             } />
 
-                            <Route exact path="/characters:characterId(\d+)/" render={
+                            <Route exact path="/characters/:characterId(\d+)/" render={
                                 () =>
                                     <CharacterDetail />
                             } />
 
 
-                            <Route exact path="/authors:author_id(\d+)/" render={
+                            <Route exact path="/authors:authorId(\d+)/" render={
                                 () =>
                                     <AuthorDetail />
                             } />
 
 
-                            <Route exact path="/fictions:fiction_id(\d+)/" render={
+                            <Route exact path="/fictions:fictionId(\d+)/" render={
                                 () =>
                                     <FictionDetail />
                             } />
 
 
-                            <Route exact path="/series/:series_id(\d+)/" render={
+                            <Route exact path="/series/:seriesId(\d+)/" render={
                                 () =>
                                     <SeriesDetail />
                             } />

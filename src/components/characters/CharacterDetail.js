@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CharacterContext } from "./CharacterProvider.js"
-import { userParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 
-export const CharacterDetail = () => {
+export const CharacterDetail = props => {
 
-    const params = params
+    const params = useParams()
 
     const { character, getCharacterById } = useContext(CharacterContext)
     
     useEffect(() => {
-        getCharacterById(params.CharacterId)
+        getCharacterById(params.characterId)
     },[])
 
     return (
