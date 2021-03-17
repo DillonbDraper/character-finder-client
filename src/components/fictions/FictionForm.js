@@ -27,9 +27,7 @@ export const FictionForm = props => {
             <form className="characterForm" onSubmit={handleSubmit((data) => {
 
                 const secondObj = {author: data.author}
-                addFiction(data).then(res=> {
-                    
-                    console.log(res)})
+                addFiction(data).then(res=> addFictionAssociations(res.id, secondObj))
             }
                 )}>
                 <TextField

@@ -26,7 +26,7 @@ export const FictionProvider = props => {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
 			},
 			body: JSON.stringify(fiction)
-		})
+		}).then(res => res.json())
 	}
 
 
