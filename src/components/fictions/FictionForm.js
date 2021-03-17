@@ -1,15 +1,22 @@
-import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useContext, useEffect, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
 import Button from '@material-ui/core/Button';
+import { Autocomplete } from '@material-ui/lab';
 import { FictionContext } from './FictionProvider';
+import { GenreContext } from '../genres/GenreProvider'
 
 
 export const FictionForm = props => {
 
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, control } = useForm()
+
     const { addFiction } = useContext(FictionContext)
+    const { genres, getGenres } = useContext(GenreContext)
+
+
+    useEffect(() => getGenres(), [])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
@@ -51,10 +58,26 @@ export const FictionForm = props => {
                     inputRef={register}
 
                 />
-
-
-                
-                
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={genres.results}
+                            getOptionLabel={(option) => option.name}
+                            
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Genre"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="genre"
+                    control={control}
+                />
                 <Button type="submit" variant="contained" color="secondary">
                     Submit
                 </Button>

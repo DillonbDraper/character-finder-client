@@ -14,6 +14,7 @@ import { FictionForm } from "./fictions/FictionForm"
 import { AuthorForm } from "./authors/AuthorForm"
 import { CharacterForm } from "./characters/CharacterForm"
 import { CreationHub } from "./CreationHub"
+import { GenreProvider } from "./genres/GenreProvider"
 
 
 export const ApplicationViews = (props) => {
@@ -53,21 +54,21 @@ export const ApplicationViews = (props) => {
                                     <SeriesDetail />
                             } />
 
-                            <Route exact path="/series-form" render={
-                                props =>
-                                    <SeriesForm {...props} />
-                            } />
+                            <GenreProvider>
+                                <Route exact path="/series-form" render={
+                                    props =>
+                                        <SeriesForm {...props} />
+                                } />
 
-                            <Route exact path="/author-form" render={
-                                props =>
-                                    <AuthorForm {...props} />
-                            } />
-
-                            <Route exact path="/book-form" render={
-                                props =>
-                                    <FictionForm {...props} />
-                            } />
-
+                                <Route exact path="/author-form" render={
+                                    props =>
+                                        <AuthorForm {...props} />
+                                } />
+                                <Route exact path="/book-form" render={
+                                    props =>
+                                        <FictionForm {...props} />
+                                } />
+                            </GenreProvider>
                             <Route exact path="/character-form" render={
                                 props =>
                                     <CharacterForm {...props} />
