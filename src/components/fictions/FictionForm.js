@@ -7,6 +7,8 @@ import { Autocomplete } from '@material-ui/lab';
 import { FictionContext } from './FictionProvider';
 import { GenreContext } from '../genres/GenreProvider'
 import { AuthorContext } from '../authors/AuthorProvider'
+import { CharacterContext } from '../characters/CharacterProvider'
+import { SeriesContext } from '../series/SeriesProvider'
 
 
 
@@ -17,6 +19,9 @@ export const FictionForm = props => {
     const { addFiction, addFictionAssociations } = useContext(FictionContext)
     const { genres, getGenres } = useContext(GenreContext)
     const { authors, getAuthors } = useContext(AuthorContext)
+    const { characters, getCharacters } = useContext(CharacterContext)
+    const { seriesSet, getSeriesSet } = useContext(SeriesContext)
+
 
 
 
@@ -26,8 +31,12 @@ export const FictionForm = props => {
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
 
+                if (data.author) {
                 const secondObj = {author: data.author}
                 addFiction(data).then(res=> addFictionAssociations(res.id, secondObj))
+                }
+
+                else { addFiction(data) }
             }
                 )}>
                 <TextField

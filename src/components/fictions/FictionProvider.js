@@ -31,7 +31,7 @@ export const FictionProvider = props => {
 
 
 	const addFictionAssociations = (pk, data) => {
-		return fetch(`http://localhost:8000/fictions/${pk}/author_relate`, {
+		return fetch(`http://localhost:8000/fictions/${pk}/create_relationships`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
