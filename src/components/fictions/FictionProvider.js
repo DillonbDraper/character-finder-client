@@ -27,8 +27,20 @@ export const FictionProvider = props => {
 			},
 			body: JSON.stringify(fiction)
 		})
-		.then(getFictions)
 	}
+
+
+	const addFictionAssociations = (pk, data) => {
+		return fetch(`http://localhost:8000/fictions/${pk}/author_relate`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+			},
+			body: JSON.stringify(data)
+		})
+	}
+
 
     const getFictionById = id => {
         return fetch (`http://localhost:8000/fictions/${id}`, {
@@ -63,7 +75,7 @@ export const FictionProvider = props => {
 	}
 
 	return <FictionContext.Provider value = {{
-        fictions, setFictions, fiction, deleteFiction, updateFiction, addFiction, setFiction,  getFictionById, getFictions
+        fictions, setFictions, fiction, deleteFiction, updateFiction, addFiction, setFiction,  getFictionById, getFictions, addFictionAssociations
 }}>
 		{props.children}
 	</FictionContext.Provider>

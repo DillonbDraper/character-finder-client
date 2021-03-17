@@ -6,21 +6,32 @@ import Button from '@material-ui/core/Button';
 import { Autocomplete } from '@material-ui/lab';
 import { FictionContext } from './FictionProvider';
 import { GenreContext } from '../genres/GenreProvider'
+import { AuthorContext } from '../authors/AuthorProvider'
+
 
 
 export const FictionForm = props => {
 
     const { register, handleSubmit, control } = useForm()
 
-    const { addFiction } = useContext(FictionContext)
+    const { addFiction, addFictionAssociations } = useContext(FictionContext)
     const { genres, getGenres } = useContext(GenreContext)
+    const { authors, getAuthors } = useContext(AuthorContext)
 
 
-    useEffect(() => getGenres(), [])
+
+    useEffect(() => getAuthors().then(getGenres), [])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
-            <form className="characterForm" onSubmit={handleSubmit((data) => addFiction(data))}>
+            <form className="characterForm" onSubmit={handleSubmit((data) => {
+
+                const secondObj = {author: data.author}
+                addFiction(data).then(res=> {
+                    
+                    console.log(res)})
+            }
+                )}>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -64,7 +75,7 @@ export const FictionForm = props => {
                             {...props}
                             options={genres.results}
                             getOptionLabel={(option) => option.name}
-                            
+                            required={true}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -78,6 +89,28 @@ export const FictionForm = props => {
                     name="genre"
                     control={control}
                 />
+
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={authors}
+                            required={false}
+                            getOptionLabel={(option) => option.name}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Author"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="author"
+                    control={control}
+                />
+
                 <Button type="submit" variant="contained" color="secondary">
                     Submit
                 </Button>
