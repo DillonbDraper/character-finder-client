@@ -20,25 +20,37 @@ export const FictionForm = props => {
     const { genres, getGenres } = useContext(GenreContext)
     const { authors, getAuthors } = useContext(AuthorContext)
     const { characters, getCharacters } = useContext(CharacterContext)
-    const { seriesSet, getSeriesSet } = useContext(SeriesContext)
+    const { seriesSet, getSeries } = useContext(SeriesContext)
 
 
 
 
-    useEffect(() => getAuthors().then(getGenres), [])
+    useEffect(() => getAuthors().then(getGenres).then(getCharacters).then(getSeries), [])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
 
-                if (data.author) {
-                const secondObj = {author: data.author}
-                addFiction(data).then(res=> addFictionAssociations(res.id, secondObj))
+                console.log(data)
+
+                if (data.authors || data.characters || data.series) {
+                    let relationshipObject = {}
+                    if (data.authors) {
+                        relationshipObject.authors = data.authors
+                    }
+                    if (data.characters) {
+                        relationshipObject.characters = data.characters
+                    }
+                    if (data.series) {
+                        relationshipObject.series = data.series
+                    }
+
+                    addFiction(data).then(res => addFictionAssociations(res.id, relationshipObject))
                 }
 
                 else { addFiction(data) }
             }
-                )}>
+            )}>
                 <TextField
                     variant="outlined"
                     margin="normal"
@@ -69,6 +81,7 @@ export const FictionForm = props => {
                     variant="outlined"
                     margin="normal"
                     fullWidth
+                    required
                     id="description"
                     label="Description:"
                     name="description"
@@ -82,7 +95,6 @@ export const FictionForm = props => {
                             {...props}
                             options={genres.results}
                             getOptionLabel={(option) => option.name}
-                            required={true}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -90,6 +102,7 @@ export const FictionForm = props => {
                                     variant="outlined"
                                 />
                             )}
+                            required
                             onChange={(_, data) => props.onChange(data)}
                         />
                     )}
@@ -102,19 +115,63 @@ export const FictionForm = props => {
                         <Autocomplete
                             {...props}
                             options={authors}
+                            multiple={true}
                             required={false}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label="Author"
+                                    label="Author(s)"
                                     variant="outlined"
                                 />
                             )}
                             onChange={(_, data) => props.onChange(data)}
                         />
                     )}
-                    name="author"
+                    name="authors"
+                    control={control}
+                />
+
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={seriesSet}
+                            required={false}
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Series"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="series"
+                    control={control}
+                />
+
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={characters}
+                            multiple={true}
+                            required={false}
+                            getOptionLabel={(option) => option.name}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Character(s)"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="characters"
                     control={control}
                 />
 
