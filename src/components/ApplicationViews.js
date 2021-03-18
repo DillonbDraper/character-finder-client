@@ -73,6 +73,10 @@ export const ApplicationViews = (props) => {
                                 props =>
                                     <CharacterForm {...props} />
                             } />
+                            <Route path="/character-form/:characterId(\d+)/" render={
+                                props =>
+                                    <CharacterForm {...props} />
+                            } />
                         </SeriesProvider>
                     </FictionProvider>
                 </AuthorProvider>

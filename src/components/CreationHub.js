@@ -41,9 +41,9 @@ export const CreationHub = () => {
     return (
         <>
             <h2>Welcome to the Creation Hub</h2>
-            <Typography>If you are here, you may have an interest in adding entries to our site.  While our database is flexible and can handle adding in any order,
-            you will make it easier for yourself and others if you add new entries in a <b>top down</b> manner.  If you would like to add a book to the database, consider adding its corresponding
-            series (if applicable) and author first.  Likewise, if you would like to add a character, please consider adding at least one work that they appear in first.
+            <Typography>If you are here, you may have an interest in adding entries to our site.  While we are working on making our database flexible enough to handle adding items in any order,
+            For now we must insist that you add new entries to the database in <b>top down</b> manner.  If you would like to add a book to the database, you must first add (if necessary) its corresponding
+            series (if applicable) and then author first.  Likewise, if you would like to add a character, you must add at least one work that they appear in first.
 
 
         </Typography>

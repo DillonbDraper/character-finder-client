@@ -1,22 +1,48 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CharacterContext } from "./CharacterProvider"
 import { useForm } from 'react-hook-form'
 import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
+import { useParams, useHistory } from 'react-router-dom'
 
 
 export const CharacterForm = props => {
 
     const { register, handleSubmit } = useForm()
-    const { addCharacter } = useContext(CharacterContext)
+    const { addCharacter, getCharacterById, character } = useContext(CharacterContext)
+    const params = useParams()
+    const history = useHistory()
+
+    const [ editMode, setEditMode ] = useState(false)
+
+    useEffect(() => {
+        if (params.characterId) {
+            getCharacterById(params.characterId).then( () => setEditMode(true))
+        }
+    }, [])
+
+    useEffect(() => {
+
+    }, [editMode])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
-            <form className="characterForm" onSubmit={handleSubmit((data) => addCharacter(data))}>
+            <form className="characterForm" onSubmit={handleSubmit((data) => {
+                
+                if (editMode) {
+
+                    console.log(data)
+                    setEditMode(false)
+                    history.push(`/characters/${character.id}`)
+                }
+
+                addCharacter(data)}
+                )}>
                 <TextField
                     variant="outlined"
                     margin="normal"
+                    value={editMode ? character.name : ""}
                     required
                     fullWidth
                     id="name"
@@ -31,6 +57,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     fullWidth
+                    value={editMode ? character.alias : ""}
                     id="alias"
                     label="Alias (if any):"
                     name="alias"
@@ -44,6 +71,7 @@ export const CharacterForm = props => {
                     margin="normal"
                     required
                     fullWidth
+                    value={editMode ? character.born_on: ""}
                     id="birthday"
                     label="Born On:"
                     name="born_on"
@@ -57,6 +85,7 @@ export const CharacterForm = props => {
                     margin="normal"
                     fullWidth
                     id="deathday"
+                    value={editMode ? character.died_on: ""}
                     label="Date of Death (Not Required):"
                     name="died_on"
                     autoFocus
@@ -68,6 +97,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
+                    value={editMode ? character.age: ""}
                     fullWidth
                     id="age"
                     label="Age in Story (Approximation is Okay!):"
@@ -82,6 +112,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
+                    value={editMode ? character.bio : ""}
                     fullWidth
                     id="bio"
                     label="Bio:"
@@ -90,9 +121,16 @@ export const CharacterForm = props => {
                     inputRef={register}
 
                 />
+                {editMode ? 
+                <Button type="submit" variant="contained" color="secondary">
+                    Submit Edit
+                </Button> 
+                
+                : 
+                
                 <Button type="submit" variant="contained" color="secondary">
                     Submit
-                </Button>
+                </Button>}
 
             </form>
 

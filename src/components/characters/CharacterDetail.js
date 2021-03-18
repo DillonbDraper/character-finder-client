@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react"
 import { CharacterContext } from "./CharacterProvider.js"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import Container from '@material-ui/core/Container';
+import { Button }  from '@material-ui/core'
 
 
 export const CharacterDetail = () => {
 
     const params = useParams()
+    const history = useHistory()
 
     const { character, getCharacterById } = useContext(CharacterContext)
     
@@ -22,6 +24,7 @@ export const CharacterDetail = () => {
         <p>Born on: {character.born_on}</p>
         <p>Died on {character.died_on ? character.died_on : "NA"}</p>
         <p>Bio: {character.bio} </p>
+        <Button color="primary" variant="contained" onClick={() => history.push(`character-form/${character.id}`)}>Enter Edit</Button>
         </>
     )
 }
