@@ -24,7 +24,7 @@ export const CharacterDetail = () => {
         <p>Born on: {character.born_on}</p>
         <p>Died on {character.died_on ? character.died_on : "NA"}</p>
         <p>Bio: {character.bio} </p>
-        <Button color="primary" variant="contained" onClick={() => history.push(`character-form/${character.id}`)}>Enter Edit</Button>
+        <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Enter Edit</Button>
         </>
     )
 }

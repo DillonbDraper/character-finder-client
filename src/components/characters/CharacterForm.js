@@ -9,8 +9,8 @@ import { useParams, useHistory } from 'react-router-dom'
 
 export const CharacterForm = props => {
 
-    const { register, handleSubmit } = useForm()
-    const { addCharacter, getCharacterById, character } = useContext(CharacterContext)
+    const { register, handleSubmit, setValue } = useForm()
+    const { addCharacter, getCharacterById, character, makeEditRequest } = useContext(CharacterContext)
     const params = useParams()
     const history = useHistory()
 
@@ -18,7 +18,15 @@ export const CharacterForm = props => {
 
     useEffect(() => {
         if (params.characterId) {
-            getCharacterById(params.characterId).then( () => setEditMode(true))
+            getCharacterById(params.characterId).then(() => setEditMode(true)).then(() => {
+                setValue('name', character.name)
+                setValue('age', character.age)
+                setValue('born_on', character.born_on)
+                setValue('died_on', character.died_on)
+                setValue('alias', character.alias)
+                setValue('bio', character.bio)
+
+            })
         }
     }, [])
 
@@ -32,17 +40,19 @@ export const CharacterForm = props => {
                 
                 if (editMode) {
 
-                    console.log(data)
+                    makeEditRequest(params.characterId, data)
                     setEditMode(false)
                     history.push(`/characters/${character.id}`)
                 }
 
-                addCharacter(data)}
+                else {
+                    addCharacter(data)}
+                }
                 )}>
                 <TextField
                     variant="outlined"
                     margin="normal"
-                    value={editMode ? character.name : ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
                     required
                     fullWidth
                     id="name"
@@ -57,7 +67,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    value={editMode ? character.alias : ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
                     id="alias"
                     label="Alias (if any):"
                     name="alias"
@@ -71,7 +81,8 @@ export const CharacterForm = props => {
                     margin="normal"
                     required
                     fullWidth
-                    value={editMode ? character.born_on: ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    defaultValue={""}
                     id="birthday"
                     label="Born On:"
                     name="born_on"
@@ -85,7 +96,7 @@ export const CharacterForm = props => {
                     margin="normal"
                     fullWidth
                     id="deathday"
-                    value={editMode ? character.died_on: ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
                     label="Date of Death (Not Required):"
                     name="died_on"
                     autoFocus
@@ -97,7 +108,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
-                    value={editMode ? character.age: ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
                     fullWidth
                     id="age"
                     label="Age in Story (Approximation is Okay!):"
@@ -112,7 +123,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
-                    value={editMode ? character.bio : ""}
+                    InputLabelProps={editMode ? {shrink: true} : ''}  
                     fullWidth
                     id="bio"
                     label="Bio:"
