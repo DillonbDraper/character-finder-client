@@ -18,7 +18,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
 
 export const EditQueue = () => {
-    const { characters, filteredCharacters, setFilteredCharacters, getUnapprovedCharacters, getCharactersWithParams } = useContext(CharacterContext)
+    const { characters, filteredCharacters, setFilteredCharacters, getUnapprovedCharacters, getUnapprovedCharactersWithParams } = useContext(CharacterContext)
     const { getFictions, fictions } = useContext(FictionContext)
     const { getSeries, seriesSet } = useContext(SeriesContext)
     const { getAuthors, authors } = useContext(AuthorContext)
@@ -209,7 +209,7 @@ export const EditQueue = () => {
             }
   
   
-            getCharactersWithParams(queryBuilder)
+            getUnapprovedCharactersWithParams(queryBuilder)
   
           }}>Search</Button>
   
@@ -228,20 +228,19 @@ export const EditQueue = () => {
             <TableBody>
               {filteredCharacters.map((character) => (
                 <StyledTableRow key={character.id}>
-                  <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characters/${character.id}`)}>
+                  <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/admin-eval/${character.id}`)}>
                     {character.name}
                   </StyledTableCell>
                   <StyledTableCell align="right" >{character.reader.name}</StyledTableCell>
-                  <StyledTableCell align="right" 
-                  onClick={()=> history.push(`/fictions/${character.works[0].id}`)}>
+                  <StyledTableCell align="right">
                     {character.works[0] ? character.works[0].title : "NA"}
                     </StyledTableCell>
-                  <StyledTableCell align="right" onClick={()=> history.push(`/authors/${character.creators[0].id}`)}>
+                  <StyledTableCell align="right">
                     
                     {character.creators[0] ? character.creators[0].name : "NA"}
                     </StyledTableCell>
   
-                  <StyledTableCell align="right" onClick={()=> history.push(`/series/${character.series[0].id}`)}>
+                  <StyledTableCell align="right">
             
                     {character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
                 </StyledTableRow>

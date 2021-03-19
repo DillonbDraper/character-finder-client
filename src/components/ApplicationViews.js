@@ -16,7 +16,7 @@ import { CharacterForm } from "./characters/CharacterForm"
 import { CreationHub } from "./CreationHub"
 import { GenreProvider } from "./genres/GenreProvider"
 import { EditQueue } from "./admin/EditQueue"
-
+import { AdminDetail } from "./admin/AdminDetail"
 
 export const ApplicationViews = (props) => {
     return (
@@ -37,7 +37,10 @@ export const ApplicationViews = (props) => {
                                     <EditQueue />
                             } />
 
-
+                            <Route exact path="/admin-eval/:characterId(\d+)/" render={
+                                () =>
+                                    <AdminDetail />
+                            } />
 
                             <Route exact path="/characters/:characterId(\d+)/" render={
                                 () =>

@@ -8,7 +8,7 @@ export const CharacterProvider = props => {
 	const [characters, setCharacters] = useState([])
 	const [filteredCharacters, setFilteredCharacters] = useState([])
 	const [character, setCharacter] = useState([])
-	const [personalCharacter, setPersonalCharacter ] = useState([])
+	const [originalCharacter, setOriginalCharacter ] = useState([])
 
 
 	const getCharacters = () => {
@@ -23,6 +23,16 @@ export const CharacterProvider = props => {
 
 	const getUnapprovedCharacters = () => {
 		return fetch("http://localhost:8000/characters/unapproved", {
+			headers: {
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+              }
+		})
+		.then(res => res.json())
+		.then(setCharacters);
+	}
+
+	const getUnapprovedCharactersWithParams = params => {
+		return fetch(`http://localhost:8000/characters/unapproved?${params}`, {
 			headers: {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
               }
@@ -97,16 +107,15 @@ export const CharacterProvider = props => {
 		})
 	}
 
-	const checkForMatch = (id) => {
-		return fetch(`http://localhost:8000/characters/${id}/check_for_match`, {
-			headers: {
-				"Content-Type": "application/json",
+	const checkForMatch = id => {
+        return fetch(`http://localhost:8000/characters/${id}/check_for_match`, {
+            headers: {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
-			},
-			
-		}).then(res=> res.json())
-		.then(setPersonalCharacter)
-	}
+              }
+        })
+            .then(res => res.json())
+            .then(setOriginalCharacter)
+    }
 
 	const approveCharacterEdit = (id, character) => {
 		return fetch(`http://localhost:8000/characters/${id}/decide_edit`, {
@@ -135,8 +144,8 @@ export const CharacterProvider = props => {
 
 	return <CharacterContext.Provider value = {{
         characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
-		filteredCharacters, setFilteredCharacters, makeEditRequest, setPersonalCharacter, checkForMatch, personalCharacter, approveCharacterEdit, rejectCharacterEdit,
-		getUnapprovedCharacters
+		filteredCharacters, setFilteredCharacters, makeEditRequest, setOriginalCharacter, checkForMatch, originalCharacter, approveCharacterEdit, rejectCharacterEdit,
+		getUnapprovedCharacters, getUnapprovedCharactersWithParams
 }}>
 		{props.children}
 	</CharacterContext.Provider>
