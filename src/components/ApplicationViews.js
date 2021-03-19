@@ -15,6 +15,7 @@ import { AuthorForm } from "./authors/AuthorForm"
 import { CharacterForm } from "./characters/CharacterForm"
 import { CreationHub } from "./CreationHub"
 import { GenreProvider } from "./genres/GenreProvider"
+import { EditQueue } from "./admin/EditQueue"
 
 
 export const ApplicationViews = (props) => {
@@ -30,6 +31,13 @@ export const ApplicationViews = (props) => {
                                 () =>
                                     <CharacterList />
                             } />
+
+                            <Route exact path="/edit-queue" render={
+                                () =>
+                                    <EditQueue />
+                            } />
+
+
 
                             <Route exact path="/characters/:characterId(\d+)/" render={
                                 () =>

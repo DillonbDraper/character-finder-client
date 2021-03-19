@@ -21,6 +21,17 @@ export const CharacterProvider = props => {
 		.then(setCharacters);
 	}
 
+	const getUnapprovedCharacters = () => {
+		return fetch("http://localhost:8000/characters/unapproved", {
+			headers: {
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+              }
+		})
+		.then(res => res.json())
+		.then(setCharacters);
+	}
+
+
 	const getCharactersWithParams = (querystring) => {
 		return fetch(`http://localhost:8000/characters?${querystring}`, {
 			headers: {
@@ -124,7 +135,8 @@ export const CharacterProvider = props => {
 
 	return <CharacterContext.Provider value = {{
         characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
-		filteredCharacters, setFilteredCharacters, makeEditRequest, setPersonalCharacter, checkForMatch, personalCharacter, approveCharacterEdit, rejectCharacterEdit
+		filteredCharacters, setFilteredCharacters, makeEditRequest, setPersonalCharacter, checkForMatch, personalCharacter, approveCharacterEdit, rejectCharacterEdit,
+		getUnapprovedCharacters
 }}>
 		{props.children}
 	</CharacterContext.Provider>
