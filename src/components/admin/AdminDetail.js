@@ -10,7 +10,7 @@ export const AdminDetail = () => {
     const params = useParams()
     const history = useHistory()
 
-    const { character, getCharacterById, checkForMatch, originalCharacter } = useContext(CharacterContext)
+    const { character, getCharacterById, checkForMatch, originalCharacter, approveCharacterEdit, rejectCharacterEdit } = useContext(CharacterContext)
     
     useEffect(() => {
         getCharacterById(params.characterId).then(() => {
@@ -42,10 +42,24 @@ export const AdminDetail = () => {
         <p>Died on {character.died_on ? character.died_on : "NA"}</p>
         <p>Bio: {character.bio} </p>
         </div>
-        <Button color="primary" variant="contained" >Enter Edit</Button>
 
 
         </Container>
+        <Container style={{display: 'flex', justifyContent: 'space-evenly'}}>
+
+        <Button color="primary" variant="contained"
+        onClick={ () => {
+            approveCharacterEdit(originalCharacter.id, character)
+        }}
+        >
+            Approve Edit</Button>
+        <Button color="primary" variant="contained" 
+        onClick={ () => {
+            rejectCharacterEdit(originalCharacter.id, character)
+        }}
+        >Reject Edit</Button>
+        </Container>
+
         </>
     )
 }
