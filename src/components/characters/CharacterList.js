@@ -41,6 +41,7 @@ export const CharacterList = () => {
 
 
   useEffect(() => {
+    
     getAuthors().then(getFictions).then(getSeries).then(getCharacters).then(() => {
     })
   }, [])

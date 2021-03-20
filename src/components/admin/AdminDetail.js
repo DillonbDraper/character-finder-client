@@ -10,7 +10,8 @@ export const AdminDetail = () => {
     const params = useParams()
     const history = useHistory()
 
-    const { character, getCharacterById, checkForMatch, originalCharacter, approveCharacterEdit, rejectCharacterEdit } = useContext(CharacterContext)
+    const { character, getCharacterById, checkForMatch, secondCharacter, approveCharacterEdit, rejectCharacterEdit } = useContext(CharacterContext)
+
     
     useEffect(() => {
         getCharacterById(params.characterId).then(() => {
@@ -18,19 +19,19 @@ export const AdminDetail = () => {
         })
     },[])
 
-    useEffect(() => {}, [originalCharacter])
+    useEffect(() => {}, [secondCharacter])
 
     return (
         <>
         <Container style={{display: 'flex', justifyContent: 'space-evenly'}}>
-        <div className="originalCharacter">
-        <h2>Original Character</h2>    
-        <h4>{originalCharacter.name}</h4>
-        <p>AKA: {originalCharacter.alias} </p>
-        <p>Age: {originalCharacter.age}</p>
-        <p>Born on: {originalCharacter.born_on}</p>
-        <p>Died on {originalCharacter.died_on ? originalCharacter.died_on : "NA"}</p>
-        <p>Bio: {originalCharacter.bio} </p>
+        <div className="secondCharacter">
+        <h2>second Character</h2>    
+        <h4>{secondCharacter.name}</h4>
+        <p>AKA: {secondCharacter.alias} </p>
+        <p>Age: {secondCharacter.age}</p>
+        <p>Born on: {secondCharacter.born_on}</p>
+        <p>Died on {secondCharacter.died_on ? secondCharacter.died_on : "NA"}</p>
+        <p>Bio: {secondCharacter.bio} </p>
         </div>
 
         <div className="editedCharacter">
@@ -49,13 +50,13 @@ export const AdminDetail = () => {
 
         <Button color="primary" variant="contained"
         onClick={ () => {
-            approveCharacterEdit(originalCharacter.id, character)
+            approveCharacterEdit(secondCharacter.id, character)
         }}
         >
             Approve Edit</Button>
         <Button color="primary" variant="contained" 
         onClick={ () => {
-            rejectCharacterEdit(originalCharacter.id, character)
+            rejectCharacterEdit(secondCharacter.id, character)
         }}
         >Reject Edit</Button>
         </Container>

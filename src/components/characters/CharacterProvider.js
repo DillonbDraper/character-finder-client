@@ -5,10 +5,10 @@ export const CharacterContext = React.createContext();
 
 export const CharacterProvider = props => {
 
-	const [characters, setCharacters] = useState([])
+	const [characters, setCharacters] = useState([{id: 0, reader: {name: ''}, works: [], creators: [], series: {}}])
 	const [filteredCharacters, setFilteredCharacters] = useState([])
-	const [character, setCharacter] = useState([])
-	const [originalCharacter, setOriginalCharacter ] = useState([])
+	const [character, setCharacter] = useState({})
+	const [secondCharacter, setSecondCharacter ] = useState([])
 
 
 	const getCharacters = () => {
@@ -113,8 +113,36 @@ export const CharacterProvider = props => {
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
               }
         })
-            .then(res => res.json())
-            .then(setOriginalCharacter)
+		.then(res => {
+			console.log(res.status)
+			if (res.status === 204) {
+				return []
+			}
+			else {
+				res.json()
+				return res
+			}
+		})
+		.then(setSecondCharacter)
+}
+
+	const checkForMatchOriginal = id => {
+        return fetch(`http://localhost:8000/characters/${id}/check_for_match_original`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+              }
+        })
+            .then(res => {
+				console.log(res.status)
+				if (res.status === 200) {
+					const response = res.json()
+					return response
+				}
+				else {
+					return []
+				}
+			})
+            .then(setSecondCharacter)
     }
 
 	const approveCharacterEdit = (id, character) => {
@@ -144,7 +172,7 @@ export const CharacterProvider = props => {
 
 	return <CharacterContext.Provider value = {{
         characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
-		filteredCharacters, setFilteredCharacters, makeEditRequest, setOriginalCharacter, checkForMatch, originalCharacter, approveCharacterEdit, rejectCharacterEdit,
+		filteredCharacters, setFilteredCharacters, makeEditRequest, setSecondCharacter, checkForMatch, secondCharacter, approveCharacterEdit, rejectCharacterEdit, checkForMatchOriginal,
 		getUnapprovedCharacters, getUnapprovedCharactersWithParams
 }}>
 		{props.children}
