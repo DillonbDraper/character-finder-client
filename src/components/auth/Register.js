@@ -34,6 +34,8 @@ export const Register = () => {
                 .then(res => {
                     if ("token" in res) {
                         localStorage.setItem("app_user", res.token)
+                        localStorage.setItem("isAdmin", res.staff)
+
                         history.push("/")
                     }
                 })

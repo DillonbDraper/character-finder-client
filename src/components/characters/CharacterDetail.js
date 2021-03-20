@@ -10,7 +10,7 @@ export const CharacterDetail = () => {
     const params = useParams()
     const history = useHistory()
 
-    const { character, getCharacterById, secondCharacter, checkForMatchOriginal } = useContext(CharacterContext)
+    const { character, getCharacterById, secondCharacter, checkForMatchOriginal, deleteCharacter, destroyAllPersonalVersions } = useContext(CharacterContext)
 
     const [personalView, setPersonalView] = useState(false)
 
@@ -18,7 +18,6 @@ export const CharacterDetail = () => {
         getCharacterById(params.characterId).then(() => {
             checkForMatchOriginal(params.characterId).then( () => {
             if ( secondCharacter.age ) {
-                console.log(secondCharacter)
                 setPersonalView(true)
             }})
         })
@@ -61,6 +60,18 @@ export const CharacterDetail = () => {
             }
                 </div>
             }
+
+            {(localStorage.getItem("isAdmin") === 'true') ?
+            <Button color="primary" variant="contained" onClick={() => {
+                if (personalView) {
+                    deleteCharacter(secondCharacter.id)
+                    history.push('/')
+                } else if (!personalView) {
+                    destroyAllPersonalVersions(character.id).then(() => deleteCharacter(character.id))
+                    history.push('/')
+                }
+            } }>Delete Character</Button>
+            : ''}
         </>
     )
 }

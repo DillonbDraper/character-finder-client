@@ -114,7 +114,6 @@ export const CharacterProvider = props => {
               }
         })
 		.then(res => {
-			console.log(res.status)
 			if (res.status === 200) {
 				const response = res.json()
 				return response
@@ -133,7 +132,6 @@ export const CharacterProvider = props => {
               }
         })
             .then(res => {
-				console.log(res.status)
 				if (res.status === 200) {
 					const response = res.json()
 					return response
@@ -167,13 +165,24 @@ export const CharacterProvider = props => {
 		})
 	}
 
+	const destroyAllPersonalVersions = id => {
+		return fetch(`http://localhost:8000/characters/${id}/destroy_all_personal_versions`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+			}
+		})
+	}
+
+
 
 
 
 	return <CharacterContext.Provider value = {{
         characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
 		filteredCharacters, setFilteredCharacters, makeEditRequest, setSecondCharacter, checkForMatch, secondCharacter, approveCharacterEdit, rejectCharacterEdit, checkForMatchOriginal,
-		getUnapprovedCharacters, getUnapprovedCharactersWithParams
+		getUnapprovedCharacters, getUnapprovedCharactersWithParams, destroyAllPersonalVersions
 }}>
 		{props.children}
 	</CharacterContext.Provider>

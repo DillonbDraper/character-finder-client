@@ -10,7 +10,7 @@ export const AdminDetail = () => {
     const params = useParams()
     const history = useHistory()
 
-    const { character, getCharacterById, checkForMatch, secondCharacter, approveCharacterEdit, rejectCharacterEdit } = useContext(CharacterContext)
+    const { character, getCharacterById, checkForMatch, checkForMatchOriginal, secondCharacter, approveCharacterEdit, rejectCharacterEdit } = useContext(CharacterContext)
 
     
     useEffect(() => {
@@ -25,7 +25,7 @@ export const AdminDetail = () => {
         <>
         <Container style={{display: 'flex', justifyContent: 'space-evenly'}}>
         <div className="secondCharacter">
-        <h2>second Character</h2>    
+        <h2>Old Version</h2>    
         <h4>{secondCharacter.name}</h4>
         <p>AKA: {secondCharacter.alias} </p>
         <p>Age: {secondCharacter.age}</p>
@@ -50,13 +50,15 @@ export const AdminDetail = () => {
 
         <Button color="primary" variant="contained"
         onClick={ () => {
-            approveCharacterEdit(secondCharacter.id, character)
+            approveCharacterEdit(secondCharacter.id, character).then( () => checkForMatchOriginal(secondCharacter.id))
+            history.push('/')
         }}
         >
             Approve Edit</Button>
         <Button color="primary" variant="contained" 
         onClick={ () => {
             rejectCharacterEdit(secondCharacter.id, character)
+            history.push('/')
         }}
         >Reject Edit</Button>
         </Container>

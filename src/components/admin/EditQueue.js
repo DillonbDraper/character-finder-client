@@ -231,7 +231,7 @@ export const EditQueue = () => {
                   <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/admin-eval/${character.id}`)}>
                     {character.name}
                   </StyledTableCell>
-                  <StyledTableCell align="right" >{character.reader.name}</StyledTableCell>
+                  <StyledTableCell align="right" >{character.reader ? character.reader.name : "waiting for data"}</StyledTableCell>
                   <StyledTableCell align="right">
                     {character.works[0] ? character.works[0].title : "NA"}
                     </StyledTableCell>

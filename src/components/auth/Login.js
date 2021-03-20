@@ -23,7 +23,6 @@ export const Login = () => {
       .then((res) => res.json())
       .then((res) => {
         if ("valid" in res && res.valid) {
-          debugger
           localStorage.setItem("app_user", res.token);
           localStorage.setItem("isAdmin", res.staff)
           history.push("/");
