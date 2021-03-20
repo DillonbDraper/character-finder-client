@@ -115,12 +115,12 @@ export const CharacterProvider = props => {
         })
 		.then(res => {
 			console.log(res.status)
-			if (res.status === 204) {
-				return []
+			if (res.status === 200) {
+				const response = res.json()
+				return response
 			}
 			else {
-				res.json()
-				return res
+				return []
 			}
 		})
 		.then(setSecondCharacter)

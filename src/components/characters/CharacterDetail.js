@@ -17,7 +17,8 @@ export const CharacterDetail = () => {
     useEffect(() => {
         getCharacterById(params.characterId).then(() => {
             checkForMatchOriginal(params.characterId).then( () => {
-            if (secondCharacter !== []) {
+            if ( secondCharacter.age ) {
+                console.log(secondCharacter)
                 setPersonalView(true)
             }})
         })
@@ -25,7 +26,7 @@ export const CharacterDetail = () => {
 
     return (
         <>
-            { secondCharacter !== [] ?
+            { secondCharacter.age ?
                 <Button color="primary" variant="contained" onClick={() => {personalView ? setPersonalView(false) : setPersonalView(true)}}>Toggle view</Button>
                 :
                 ""
@@ -40,7 +41,7 @@ export const CharacterDetail = () => {
                     <p>Born on: {secondCharacter.born_on}</p>
                     <p>Died on {secondCharacter.died_on ? character.died_on : "NA"}</p>
                     <p>Bio: {secondCharacter.bio} </p>
-                    <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Revise Edits</Button>
+                    <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${secondCharacter.id}`)}>Revise Edits</Button>
                 </div>
 
                 :
@@ -53,7 +54,7 @@ export const CharacterDetail = () => {
                     <p>Died on {character.died_on ? character.died_on : "NA"}</p>
                     <p>Bio: {character.bio} </p>
                     {
-                        secondCharacter === [] ? 
+                        !secondCharacter.age ? 
                         <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Enter Edit</Button>
                          : ""
 

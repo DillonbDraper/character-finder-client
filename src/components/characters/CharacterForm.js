@@ -10,49 +10,60 @@ import { useParams, useHistory } from 'react-router-dom'
 export const CharacterForm = props => {
 
     const { register, handleSubmit, setValue } = useForm()
-    const { addCharacter, getCharacterById, character, makeEditRequest } = useContext(CharacterContext)
+    const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter } = useContext(CharacterContext)
     const params = useParams()
     const history = useHistory()
 
-    const [ editMode, setEditMode ] = useState(false)
+    const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
         if (params.characterId) {
-            getCharacterById(params.characterId).then(() => setEditMode(true)).then(() => {
-                setValue('name', character.name)
-                setValue('age', character.age)
-                setValue('born_on', character.born_on)
-                setValue('died_on', character.died_on)
-                setValue('alias', character.alias)
-                setValue('bio', character.bio)
-
-            })
+            getCharacterById(params.characterId).then(() => setEditMode(true))
         }
     }, [])
 
     useEffect(() => {
+        setValue('name', character.name)
+        setValue('age', character.age)
+        setValue('born_on', character.born_on)
+        setValue('died_on', character.died_on)
+        setValue('alias', character.alias)
+        setValue('bio', character.bio)
 
-    }, [editMode])
+    }, [editMode, character])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
-                
+
                 if (editMode) {
 
+                    if (character.public_version === false) {
+                        let updatedCharacter = { ...data }
+                        updatedCharacter.public_version = false
+                        updatedCharacter.id = character.id
+                        updatedCharacter.reader_id = character.reader.id
+                        updateCharacter(updatedCharacter)
+                        history.push(`/`)
+
+                    }
+                    else {
                     makeEditRequest(params.characterId, data)
                     setEditMode(false)
                     history.push(`/characters/${character.id}`)
+                    }
                 }
 
                 else {
-                    addCharacter(data)}
+                    addCharacter(data)
+                    history.push(`/characters/${character.id}`)
                 }
-                )}>
+            }
+            )}>
                 <TextField
                     variant="outlined"
                     margin="normal"
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     required
                     fullWidth
                     id="name"
@@ -67,7 +78,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     fullWidth
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     id="alias"
                     label="Alias (if any):"
                     name="alias"
@@ -81,7 +92,7 @@ export const CharacterForm = props => {
                     margin="normal"
                     required
                     fullWidth
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     defaultValue={""}
                     id="birthday"
                     label="Born On:"
@@ -96,7 +107,7 @@ export const CharacterForm = props => {
                     margin="normal"
                     fullWidth
                     id="deathday"
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     label="Date of Death (Not Required):"
                     name="died_on"
                     autoFocus
@@ -108,7 +119,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     fullWidth
                     id="age"
                     label="Age in Story (Approximation is Okay!):"
@@ -123,7 +134,7 @@ export const CharacterForm = props => {
                     variant="outlined"
                     margin="normal"
                     required
-                    InputLabelProps={editMode ? {shrink: true} : ''}  
+                    InputLabelProps={editMode ? { shrink: true } : {}}
                     fullWidth
                     id="bio"
                     label="Bio:"
@@ -132,15 +143,15 @@ export const CharacterForm = props => {
                     inputRef={register}
 
                 />
-                {editMode ? 
-                <Button type="submit" variant="contained" color="secondary">
-                    Submit Edit
-                </Button> 
-                
-                : 
-                
-                <Button type="submit" variant="contained" color="secondary">
-                    Submit
+                {editMode ?
+                    <Button type="submit" variant="contained" color="secondary">
+                        Submit Edit
+                </Button>
+
+                    :
+
+                    <Button type="submit" variant="contained" color="secondary">
+                        Submit
                 </Button>}
 
             </form>
