@@ -84,8 +84,9 @@ export const CharacterList = () => {
 
   return (
     <>
-      <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '10vh', display: 'flex' }}>
+      <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '10vh', display: 'flex', justifyContent: "space-evenly", alignItems: 'center' }}>
         <Autocomplete
+          
           id="characters"
           options={characters}
           getOptionLabel={(char) => {
@@ -193,7 +194,7 @@ export const CharacterList = () => {
           renderInput={(params) => <TextField {...params} label="Series" variant="outlined" />}
         />
 
-        <Button onClick={() => {
+        <Button variant="contained" color="primary" onClick={() => {
           let queryBuilder = ""
           if (characterValue !== null) {
             queryBuilder += `name=${characterValue.name}&`

@@ -48,7 +48,7 @@ export const AdminDetail = () => {
         </Container>
         <Container style={{display: 'flex', justifyContent: 'space-evenly'}}>
 
-        <Button color="primary" variant="contained"
+        <Button variant="contained" color="primary"
         onClick={ () => {
             approveCharacterEdit(secondCharacter.id, character).then( () => checkForMatchOriginal(secondCharacter.id))
             history.push('/')
