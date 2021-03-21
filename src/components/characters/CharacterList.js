@@ -4,7 +4,7 @@ import { FictionContext } from "../fictions/FictionProvider.js"
 import { AuthorContext } from "../authors/AuthorProvider.js"
 import { SeriesContext } from "../series/SeriesProvider.js"
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -41,7 +41,7 @@ export const CharacterList = () => {
 
 
   useEffect(() => {
-    
+
     getAuthors().then(getFictions).then(getSeries).then(getCharacters).then(() => {
     })
   }, [])
@@ -196,20 +196,20 @@ export const CharacterList = () => {
         <Button onClick={() => {
           let queryBuilder = ""
           if (characterValue !== null) {
-            queryBuilder+= `name=${characterValue.name}&`
+            queryBuilder += `name=${characterValue.name}&`
           }
 
 
           if (authorValue !== null) {
-            queryBuilder+= `author=${authorValue.id}&`
+            queryBuilder += `author=${authorValue.id}&`
           }
 
           if (fictionValue !== null) {
-            queryBuilder+= `fiction=${fictionValue.id}&`
+            queryBuilder += `fiction=${fictionValue.id}&`
           }
 
           if (seriesValue !== null) {
-            queryBuilder+= `series=${seriesValue.id}`
+            queryBuilder += `series=${seriesValue.id}`
           }
 
 
@@ -232,22 +232,20 @@ export const CharacterList = () => {
           <TableBody>
             {filteredCharacters.map((character) => (
               <StyledTableRow key={character.id}>
-                <StyledTableCell component="th" scope="row" onClick={()=> history.push(`/characters/${character.id}`)}>
-                  {character.name}
+                <StyledTableCell component="th" scope="row">
+                <Link to={`/characters/${character.id}`}>{`${character.name}`}</Link>
                 </StyledTableCell>
                 <StyledTableCell align="right" >{character.alias}</StyledTableCell>
-                <StyledTableCell align="right" 
-                onClick={()=> history.push(`/fictions/${character.works[0].id}`)}>
-                  {character.works[0] ? character.works[0].title : "NA"}
-                  </StyledTableCell>
-                <StyledTableCell align="right" onClick={()=> history.push(`/authors/${character.creators[0].id}`)}>
-                  
-                  {character.creators[0] ? character.creators[0].name : "NA"}
-                  </StyledTableCell>
+                <StyledTableCell align="right">
+                {character.works[0] ? <Link to={`/fictions/${character.works[0].id}`}>{`${character.works[0].title}`}</Link> : "NA"}
+                </StyledTableCell>
+                <StyledTableCell align="right"> 
+                  {character.creators[0] ? <Link to={`/authors/${character.creators[0].id}`}>{`${character.creators[0].name}`}</Link> : "NA"}
+                </StyledTableCell>
 
-                <StyledTableCell align="right" onClick={()=> history.push(`/series/${character.series[0].id}`)}>
-          
-                  {character.series[0] ? character.series[0].title : "NA"}</StyledTableCell>
+                <StyledTableCell align="right">
+                {character.series[0] ? <Link to={`/series/${character.series[0].id}`}>{`${character.series[0].title}`}</Link> : "NA"}
+                  </StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
