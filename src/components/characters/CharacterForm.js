@@ -43,14 +43,15 @@ export const CharacterForm = props => {
                         updatedCharacter.public_version = false
                         updatedCharacter.id = character.id
                         updatedCharacter.reader_id = character.reader.id
+                        updatedCharacter.reset_queue = true
                         updateCharacter(updatedCharacter)
                         history.push(`/`)
 
                     }
                     else {
-                    makeEditRequest(params.characterId, data)
-                    setEditMode(false)
-                    history.push(`/characters/${character.id}`)
+                        makeEditRequest(params.characterId, data)
+                        setEditMode(false)
+                        history.push(`/characters/${character.id}`)
                     }
                 }
 
@@ -145,7 +146,7 @@ export const CharacterForm = props => {
                 />
                 {editMode ?
                     <Button type="submit" variant="contained" color="secondary">
-                        Submit Edit
+                        {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}
                 </Button>
 
                     :
