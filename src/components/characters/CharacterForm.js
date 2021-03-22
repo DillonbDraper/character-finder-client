@@ -141,13 +141,16 @@ export const CharacterForm = props => {
                     label="Bio:"
                     name="bio"
                     autoFocus
+                    multiline
+                    rows={4}
+                    rowsMax={Infinity}
                     inputRef={register}
 
                 />
                 {editMode ?
                     <Button type="submit" variant="contained" color="secondary">
                         {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}
-                </Button>
+                    </Button>
 
                     :
 

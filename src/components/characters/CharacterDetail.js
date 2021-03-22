@@ -3,6 +3,7 @@ import { CharacterContext } from "./CharacterProvider.js"
 import { useParams, useHistory } from "react-router-dom"
 import { Container } from '@material-ui/core';
 import { Button } from '@material-ui/core'
+import { Typography } from '@material-ui/core'
 
 
 export const CharacterDetail = () => {
@@ -24,7 +25,7 @@ export const CharacterDetail = () => {
     }, [])
 
     return (
-        <>
+        <Container style={{backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%'}}>
             { secondCharacter.age ?
                 <Button color="primary" variant="contained" onClick={() => {personalView ? setPersonalView(false) : setPersonalView(true)}}>Toggle view</Button>
                 :
@@ -32,37 +33,37 @@ export const CharacterDetail = () => {
 
             }
             { personalView ?
-                <div>
-                    <h2>My version of</h2>
+                <Container maxWidth="xl" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <h2>My version of</h2>
                     <h1>{secondCharacter.name}</h1>
-                    <p>AKA: {secondCharacter.alias} </p>
-                    <p>Age: {secondCharacter.age}</p>
-                    <p>Born on: {secondCharacter.born_on}</p>
-                    <p>Died on {secondCharacter.died_on ? character.died_on : "NA"}</p>
-                    <p>Bio: {secondCharacter.bio} </p>
-                    <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${secondCharacter.id}`)}>Revise Edits</Button>
-                </div>
+                    <Typography>AKA: {secondCharacter.alias} </Typography>
+                    <Typography>Age: {secondCharacter.age}</Typography>
+                    <Typography>Born on: {secondCharacter.born_on}</Typography>
+                    <Typography>Died on {secondCharacter.died_on ? character.died_on : "NA"}</Typography>
+                    <Typography style={{marginTop: '1%'}}>Bio: {secondCharacter.bio} </Typography>
+                    <Button color="primary" variant="contained" style={{alignSelf: 'flex-start', marginTop: '3%'}} onClick={() => history.push(`/character-form/${secondCharacter.id}`)}>Revise Edits</Button>
+                </Container>
 
                 :
-                <div>
+                <Container maxWidth="xl" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h2>Public Version of </h2>
                     <h1>{character.name}</h1>
-                    <p>AKA: {character.alias} </p>
-                    <p>Age: {character.age}</p>
-                    <p>Born on: {character.born_on}</p>
-                    <p>Died on {character.died_on ? character.died_on : "NA"}</p>
-                    <p>Bio: {character.bio} </p>
+                    <Typography>AKA: {character.alias} </Typography>
+                    <Typography>Age: {character.age}</Typography>
+                    <Typography>Born on: {character.born_on}</Typography>
+                    <Typography>Died on {character.died_on ? character.died_on : "NA"}</Typography>
+                    <Typography style={{marginTop: '1%', alignSelf: "flex-start"}}>Bio: {character.bio} </Typography>
                     {
                         !secondCharacter.age ? 
-                        <Button color="primary" variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Enter Edit</Button>
+                        <Button color="primary" style={{alignSelf: 'flex-start', marginTop: '1%'}} variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Enter Edit Mode</Button>
                          : ""
 
             }
-                </div>
+                </Container>
             }
 
             {(localStorage.getItem("isAdmin") === 'true') ?
-            <Button color="primary" variant="contained" onClick={() => {
+            <Button style={{marginTop: '1%', marginLeft: '1%'}}color="primary" variant="contained" onClick={() => {
                 if (personalView) {
                     deleteCharacter(secondCharacter.id)
                     history.push('/')
@@ -72,6 +73,6 @@ export const CharacterDetail = () => {
                 }
             } }>Delete Character</Button>
             : ''}
-        </>
+        </Container>
     )
 }
