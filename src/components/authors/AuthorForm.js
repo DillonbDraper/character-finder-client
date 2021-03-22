@@ -12,7 +12,7 @@ export const AuthorForm = props => {
     const { addAuthor } = useContext(AuthorContext)
 
     return (
-        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
+        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => addAuthor(data))}>
                 <TextField
                     variant="outlined"
@@ -65,8 +65,8 @@ export const AuthorForm = props => {
                     inputRef={register}
 
                 />
-                <Button type="submit" variant="contained" color="secondary">
-                    Submit
+                <Button style={{marginTop: '1%'}}type="submit" variant="contained" color="secondary">
+                    Create
                 </Button>
 
             </form>

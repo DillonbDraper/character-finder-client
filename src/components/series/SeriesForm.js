@@ -19,7 +19,7 @@ export const SeriesForm = props => {
     useEffect(() => getGenres(), [])
 
     return (
-        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
+        <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => addSeries(data))}>
                 <TextField
                     variant="outlined"
@@ -42,6 +42,7 @@ export const SeriesForm = props => {
                     id="description"
                     label="Description:"
                     name="description"
+                    style={{marginBottom: '1%'}}
                     autoFocus
                     inputRef={register}
 
@@ -66,8 +67,8 @@ export const SeriesForm = props => {
                     name="genre"
                     control={control}
                 />
-                <Button type="submit" variant="contained" color="secondary">
-                    Submit
+                <Button style={{marginTop: '2%'}}type="submit" variant="contained" color="secondary">
+                    Create
                 </Button>
 
             </form>

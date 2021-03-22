@@ -1,8 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import { createMuiTheme, makeStyles, withStyles, useStyles, ThemeProvider  } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import { Typography } from "@material-ui/core";
+import { Typography, Container, Button } from "@material-ui/core";
 import { green, purple } from "@material-ui/core/colors"
 
 export const CreationHub = () => {
@@ -39,7 +38,7 @@ export const CreationHub = () => {
     
 
     return (
-        <>
+        <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%', display: 'flex', flexDirection: 'column' }}>
             <h2>Welcome to the Creation Hub</h2>
             <Typography>If you are here, you may have an interest in adding entries to our site.  While we are working on making our database flexible enough to handle adding items in any order,
             For now we must insist that you add new entries to the database in <b>top down</b> manner.  If you would like to add a book to the database, you must first add (if necessary) its corresponding
@@ -47,23 +46,23 @@ export const CreationHub = () => {
 
 
         </Typography>
-            <Button variant="contained" color="primary" onClick={() => history.push('/series-form')}>
+        {/* <Container style={{display: 'flex', flexDirection: 'column', maxWidth: '25%', alignItems: 'flex-start'}}> */}
+            <Button style={{marginTop: '2%', marginBottom: '1%', maxWidth: '20%'}} variant="contained" color="primary" onClick={() => history.push('/series-form')}>
                 Add Series
              </Button>
 
-            <Button variant="contained" color="secondary" onClick={() => history.push('/author-form')}>
+            <Button style={{marginBottom: '1%', maxWidth: '20%'}} variant="contained" color="secondary" onClick={() => history.push('/author-form')}>
                 Add Author
             </Button>
 
-            <PurpleColorButton variant="contained" color="primary" onClick={() => history.push('/book-form')}>
+            <PurpleColorButton style={{marginBottom: '1%', maxWidth: '20%'}} variant="contained" color="primary" onClick={() => history.push('/book-form')}>
                 Add Book
             </PurpleColorButton>
 
-            <GreenColorButton variant="contained" color="primary" onClick={() => history.push('/character-form')}>
+            <GreenColorButton style={{marginBottom: '1%', maxWidth: '20%'}} variant="contained" color="primary" onClick={() => history.push('/character-form')}>
                 Add Character
             </GreenColorButton>
-
-
-        </>
+            {/* </Container> */}
+        </Container>
     )
 }

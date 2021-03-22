@@ -26,7 +26,7 @@ export const FictionDetail = () => {
                 <Typography>By: {fiction.creators ? fiction.creators[0].name : "Unknown"} </Typography>
                 <Typography>Genre: {fiction.genre.name}</Typography>
                 <Typography>Characters: {fiction.characters ? fiction.characters[0].name : "Unavailable"}</Typography>
-                <Typography>Part of the series: {fiction.series ? fiction.series[0].title : "NA"} </Typography>
+                <Typography>Part of the series: {fiction.series[0] ? fiction.series[0].title : "NA"} </Typography>
                 <Typography style={{alignSelf: 'flex-start'}}>Description: {fiction.description}</Typography>
 
 

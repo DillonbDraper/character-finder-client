@@ -33,7 +33,7 @@ export const CharacterForm = props => {
     }, [editMode, character])
 
     return (
-        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
+        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
 
                 if (editMode) {

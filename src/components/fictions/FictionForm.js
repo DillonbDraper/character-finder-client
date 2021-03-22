@@ -28,7 +28,7 @@ export const FictionForm = props => {
     useEffect(() => getAuthors().then(getGenres).then(getCharacters).then(getSeries), [])
 
     return (
-        <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '75vh', display: 'flex' }}>
+        <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
 
                 console.log(data)
@@ -89,11 +89,13 @@ export const FictionForm = props => {
                     inputRef={register}
 
                 />
+                
                 <Controller
                     render={(props) => (
                         <Autocomplete
                             {...props}
                             options={genres.results}
+                            style={{marginTop: '1%', marginBottom: '1%'}}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
                                 <TextField
@@ -116,6 +118,7 @@ export const FictionForm = props => {
                             {...props}
                             options={authors}
                             multiple={true}
+                            style={{marginTop: '1%', marginBottom: '1%'}}
                             required={false}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
@@ -137,6 +140,7 @@ export const FictionForm = props => {
                         <Autocomplete
                             {...props}
                             options={seriesSet}
+                            style={{marginTop: '1%', marginBottom: '1%'}}
                             required={false}
                             getOptionLabel={(option) => option.title}
                             renderInput={(params) => (
@@ -158,6 +162,7 @@ export const FictionForm = props => {
                         <Autocomplete
                             {...props}
                             options={characters}
+                            style={{marginTop: '1%', marginBottom: '1%'}}
                             multiple={true}
                             required={false}
                             getOptionLabel={(option) => option.name}
@@ -176,7 +181,7 @@ export const FictionForm = props => {
                 />
 
                 <Button type="submit" variant="contained" color="secondary">
-                    Submit
+                    Create
                 </Button>
 
             </form>
