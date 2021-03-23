@@ -4,6 +4,10 @@ import { useParams, useHistory, Link } from "react-router-dom"
 import { Button } from "@material-ui/core"
 import { Typography } from '@material-ui/core'
 import { Container } from '@material-ui/core';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -39,6 +43,27 @@ export const FictionDetail = () => {
         history.push('/')
     }
 
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            width: '100%',
+            maxWidth: 360,
+            backgroundColor: theme.palette.background.paper,
+            position: 'relative',
+            overflow: 'auto',
+            maxHeight: 300,
+        },
+        listSection: {
+            backgroundColor: 'inherit',
+        },
+        ul: {
+            backgroundColor: 'inherit',
+            padding: 0,
+        },
+    }));
+
+    const classes = useStyles()
+
+
     return (
         <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
 
@@ -54,13 +79,16 @@ export const FictionDetail = () => {
                 <Typography style={{ alignSelf: 'flex-start', marginTop: '2%' }}>Description: {fiction.description}</Typography>
 
 <Container style={{paddingLeft: '50%', marginTop: '2%'}}>
-                <Typography>The following characters in our database appear this work:</Typography>
-                <ul>
-                {fiction.characters ? fiction.characters.map(character => {
-                    return <li><Link to={`/characters/${character.id}`}>{character.name}</Link></li>
-                }) : ""}
-                
-                </ul>
+                <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Characters appearing in this work:</ListSubheader>
+                        {fiction.characters ?
+                            fiction.characters.map((char) => (
+                                <ListItem key={`${char.id}`}>
+                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
 </Container>
             </Container>
             {(localStorage.getItem("isAdmin") === 'true') ?

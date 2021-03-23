@@ -64,7 +64,7 @@ export const CharacterDetail = () => {
                     <h2>My version of</h2>
                     <h1>{secondCharacter.name}</h1>
                     <Typography>AKA: {secondCharacter.alias} </Typography>
-                    <Typography>Created by: {secondCharacter.creators[0] ? <Link to={`/authors/${secondCharacter.creators[0].id}`}>{secondCharacter.creators[0].name}</Link> : 'NA'} </Typography>
+                    <Typography>Created by: {secondCharacter.creators ? <Link to={`/authors/${secondCharacter.creators[0].id}`}>{secondCharacter.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {secondCharacter.age}</Typography>
                     <Typography>Born on: {secondCharacter.born_on}</Typography>
                     <Typography>Died on {secondCharacter.died_on ? character.died_on : "NA"}</Typography>
@@ -85,7 +85,7 @@ export const CharacterDetail = () => {
                     <h2>Public Version of </h2>
                     <h1>{character.name}</h1>
                     <Typography>AKA: {character.alias} </Typography>
-                    <Typography>Created by: {character.creators[0] ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
+                    <Typography>Created by: {character.creators ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {character.age}</Typography>
                     <Typography>Born on: {character.born_on}</Typography>
                     <Typography>Died on {character.died_on ? character.died_on : "NA"}</Typography>

@@ -10,14 +10,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 
 export const AuthorDetail = () => {
@@ -48,32 +43,26 @@ export const AuthorDetail = () => {
         history.push('/')
     }
 
-    const StyledTableCell = withStyles((theme) => ({
-        head: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        body: {
-            fontSize: 14,
-        },
-    }))(TableCell);
-
-    const StyledTableRow = withStyles((theme) => ({
+    const useStyles = makeStyles((theme) => ({
         root: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: theme.palette.action.hover,
-            },
+            width: '100%',
+            maxWidth: 360,
+            backgroundColor: theme.palette.background.paper,
+            position: 'relative',
+            overflow: 'auto',
+            maxHeight: 300,
         },
-    }))(TableRow);
-
-
-    const useStyles = makeStyles({
-        table: {
-            minWidth: 700,
+        listSection: {
+            backgroundColor: 'inherit',
         },
-    });
+        ul: {
+            backgroundColor: 'inherit',
+            padding: 0,
+        },
+    }));
 
-    const classes = useStyles();
+    const classes = useStyles()
+
 
 
     return (
@@ -89,90 +78,39 @@ export const AuthorDetail = () => {
 
 
                 </Container>
-                <Container style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    <TableContainer style={{maxWidth: '25%'}} component={Paper}>
-                        <Table className={classes.table} aria-label="customized table"  style={{ width: "auto", tableLayout: "auto" }}>
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell width="20%">Characters</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {author.characters ? author.characters.map((character) => (
-                                    <StyledTableRow>
+                <Container style={{ display: 'flex', justifyContent: 'space-between', marginTop: '3%' }}>
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Works written by {author.name}:</ListSubheader>
+                        {author.works ?
+                            author.works.map((work) => (
+                                <ListItem key={`${work.id}`}>
+                                    <Link to={`/fiction/${work.id}`}>{work.title}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
 
-                                        <StyledTableCell width='20%' >
-                                            <Link to={`/characters/${character.id}`}>{`${character.name}`}</Link>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Created the series:</ListSubheader>
+                        {author.series ?
+                            author.series.map((series) => (
+                                <ListItem key={`${series.id}`}>
+                                    <Link to={`/fiction/${series.id}`}>{series.title}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
 
-                                ))
-                                    :
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                            ""
-                                        </StyledTableCell>
-                                    )
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell >Books</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {author.works ? author.works.map((fiction) => (
-                                    <StyledTableRow>
-
-                                        <StyledTableCell >
-                                            <Link to={`/characters/${fiction.id}`}>{`${fiction.title}`}</Link>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-
-                                ))
-                                    :
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                        </StyledTableCell>
-                                    )
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table} aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align='left'>Characters</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {author.series ? author.series.map((series) => (
-                                    <StyledTableRow>
-
-                                        <StyledTableCell component="th" scope="row">
-                                            <Link to={`/characters/${series.id}`}>{`${series.title}`}</Link>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-
-                                ))
-                                    :
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                            ""
-                                        </StyledTableCell>
-                                    )
-                                }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Created the characters:</ListSubheader>
+                        {author.characters ?
+                            author.characters.map((char) => (
+                                <ListItem key={`${char.id}`}>
+                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
                 </Container>
 
                 {(localStorage.getItem("isAdmin") === 'true') ?

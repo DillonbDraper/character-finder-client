@@ -10,7 +10,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 
@@ -72,17 +71,41 @@ export const SeriesDetail = () => {
                 <h1>{series.title}</h1>
                 <Typography>Description: {series.description} </Typography>
 
+                <Container style={{ display: 'flex', justifyContent: 'space-between', marginTop: '3%' }}>
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Series contains the works:</ListSubheader>
+                        {series.works ?
+                            series.works.map((work) => (
+                                <ListItem key={`${work.id}`}>
+                                    <Link to={`/fiction/${work.id}`}>{work.title}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
 
-                <List className={classes.root} subheader={<li />}>
-                    <ListSubheader>Series contains the works:</ListSubheader>
-                    {series.works ?
-                                series.works.map((work) => (
-                            <ListItem key={`${work.id}`}>
-                                <Link to={`/fiction/${work.id}`}>{work.title}</Link>
-                            </ListItem>
-                        )
-                    ) : "" } 
-                </List>
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>Series created by:</ListSubheader>
+                        {series.creators ?
+                            series.creators.map((creator) => (
+                                <ListItem key={`${creator.id}`}>
+                                    <Link to={`/fiction/${creator.id}`}>{creator.name}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
+
+                    <List className={classes.root} subheader={<li />}>
+                        <ListSubheader>featuring:</ListSubheader>
+                        {series.characters ?
+                            series.characters.map((char) => (
+                                <ListItem key={`${char.id}`}>
+                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                </ListItem>
+                            )
+                            ) : ""}
+                    </List>
+                </Container>
+
                 {(localStorage.getItem("isAdmin") === 'true') ?
                     <Button style={{ alignSelf: 'flex-start', marginTop: '2%' }} color="primary" variant="contained" onClick={handleClickOpen}
                     >Delete Series</Button>
