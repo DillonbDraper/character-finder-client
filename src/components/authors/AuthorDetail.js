@@ -89,64 +89,97 @@ export const AuthorDetail = () => {
 
 
                 </Container>
+                <Container style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                    <TableContainer style={{maxWidth: '25%'}} component={Paper}>
+                        <Table className={classes.table} aria-label="customized table"  style={{ width: "auto", tableLayout: "auto" }}>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell width="20%">Characters</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {author.characters ? author.characters.map((character) => (
+                                    <StyledTableRow>
+
+                                        <StyledTableCell width='20%' >
+                                            <Link to={`/characters/${character.id}`}>{`${character.name}`}</Link>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+
+                                ))
+                                    :
+                                    (
+                                        <StyledTableCell component="th" scope="row">
+                                            ""
+                                        </StyledTableCell>
+                                    )
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell >Books</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {author.works ? author.works.map((fiction) => (
+                                    <StyledTableRow>
+
+                                        <StyledTableCell >
+                                            <Link to={`/characters/${fiction.id}`}>{`${fiction.title}`}</Link>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+
+                                ))
+                                    :
+                                    (
+                                        <StyledTableCell component="th" scope="row">
+                                        </StyledTableCell>
+                                    )
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table} aria-label="customized table">
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align='left'>Characters</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {author.series ? author.series.map((series) => (
+                                    <StyledTableRow>
+
+                                        <StyledTableCell component="th" scope="row">
+                                            <Link to={`/characters/${series.id}`}>{`${series.title}`}</Link>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
+
+                                ))
+                                    :
+                                    (
+                                        <StyledTableCell component="th" scope="row">
+                                            ""
+                                        </StyledTableCell>
+                                    )
+                                }
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Container>
+
                 {(localStorage.getItem("isAdmin") === 'true') ?
                     <Button style={{ alignSelf: 'flex-start', marginTop: '1%' }} color="primary" variant="contained" onClick={handleClickOpen}
                     >Delete Author</Button>
                     :
                     ''}
-
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell align='left'>Characters</StyledTableCell>
-                                <StyledTableCell align='left'>Books</StyledTableCell>
-                                <StyledTableCell align='left'>Series</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <StyledTableRow>
-                                {author.characters ? author.characters.map((character) => (
-                                    <StyledTableCell component="th" scope="row">
-                                        <Link to={`/characters/${character.id}`}>{`${character.name}`}</Link>
-                                    </StyledTableCell>
-                                ))
-                                  :  
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                            ""
-                                        </StyledTableCell>
-                                    )
-                                }
-
-                                {author.works ? author.works.map((fiction) => (
-                                    <StyledTableCell component="th" scope="row">
-                                        <Link to={`/characters/${fiction.id}`}>{`${fiction.title}`}</Link>
-                                    </StyledTableCell>
-                                ))
-                                  :  
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                        </StyledTableCell>
-                                    )
-                                }
-
-                                {author.series ? author.series.map((series) => (
-                                    <StyledTableCell component="th" scope="row">
-                                        <Link to={`/characters/${series.id}`}>{`${series.title}`}</Link>
-                                    </StyledTableCell>
-                                ))
-                                  :  
-                                    (
-                                        <StyledTableCell component="th" scope="row">
-                                            ""
-                                        </StyledTableCell>
-                                    )
-                                }
-                            </StyledTableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
             </Container>
             <Dialog
                 open={open}
