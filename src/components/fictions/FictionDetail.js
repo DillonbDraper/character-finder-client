@@ -56,9 +56,9 @@ export const FictionDetail = () => {
 <Container style={{paddingLeft: '50%', marginTop: '2%'}}>
                 <Typography>The following characters in our database appear this work:</Typography>
                 <ul>
-                {fiction.characters.map(character => {
+                {fiction.characters ? fiction.characters.map(character => {
                     return <li><Link to={`/characters/${character.id}`}>{character.name}</Link></li>
-                })}
+                }) : ""}
                 
                 </ul>
 </Container>
