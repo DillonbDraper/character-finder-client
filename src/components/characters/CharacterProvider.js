@@ -99,10 +99,9 @@ export const CharacterProvider = props => {
 		return fetch(`http://localhost:8000/characters/${id}/edit_request`, {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
 			},
-			body: JSON.stringify(data)
+			body: data
 		})
 	}
 
