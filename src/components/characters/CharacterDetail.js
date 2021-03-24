@@ -86,7 +86,7 @@ export const CharacterDetail = () => {
     return (
         <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
             { secondCharacter.age ?
-                <Button color="primary" variant="contained" onClick={() => { personalView ? setPersonalView(false) : setPersonalView(true) }}>Toggle view</Button>
+                <Button style={{marginTop: '2%'}} color="primary" variant="contained" onClick={() => { personalView ? setPersonalView(false) : setPersonalView(true) }}>Toggle view</Button>
                 :
                 ""
 
@@ -95,8 +95,9 @@ export const CharacterDetail = () => {
                 <Container maxWidth="xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <h2>My version of</h2>
                     <h1>{secondCharacter.name}</h1>
+                    <img style={{maxWidth: '15%', height: 200}} src={secondCharacter.image ? secondCharacter.image : ''}></img>
                     <Typography>AKA: {secondCharacter.alias} </Typography>
-                    <Typography>Created by: {secondCharacter.creators ? <Link to={`/authors/${secondCharacter.creators[0].id}`}>{secondCharacter.creators[0].name}</Link> : 'NA'} </Typography>
+                    <Typography>Created by: {secondCharacter.creators[0] ? <Link to={`/authors/${secondCharacter.creators[0].id}`}>{secondCharacter.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {secondCharacter.age}</Typography>
                     <Typography>Born on: {secondCharacter.born_on}</Typography>
                     <Typography>Died on: {secondCharacter.died_on ? character.died_on : "NA"}</Typography>
@@ -105,7 +106,7 @@ export const CharacterDetail = () => {
                             <ListSubheader>Appears in:</ListSubheader>
                             {secondCharacter.works ?
                                 secondCharacter.works.map((book) => (
-                                    <ListItem key={`${book.id}`}>
+                                    <ListItem key={`book-${book.id}`}>
                                         <Link to={`/fictions/${book.id}`}>{book.title}</Link>
                                     </ListItem>
                                 )
@@ -122,7 +123,7 @@ export const CharacterDetail = () => {
                                 </TableHead>
                                 <TableBody>
                                     {secondCharacter.associations.map((association) => (
-                                        <TableRow key={association.id}>
+                                        <TableRow key={`association-${association.id}`}>
                                             <TableCell component="th" scope="row">
                                                 {association.char_two ? association.char_two.name : association.char_one.name}
                                             </TableCell>
@@ -142,6 +143,7 @@ export const CharacterDetail = () => {
                 <Container maxWidth="xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <h2>Public Version of </h2>
                     <h1>{character.name}</h1>
+                    <img style={{maxWidth: '15%', height: 200}} src={character.image ? character.image : ''}></img>
                     <Typography>AKA: {character.alias} </Typography>
                     <Typography>Created by: {character.creators ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {character.age}</Typography>
@@ -152,7 +154,7 @@ export const CharacterDetail = () => {
                             <ListSubheader>Appears in:</ListSubheader>
                             {character.works ?
                                 character.works.map((book) => (
-                                    <ListItem key={`${book.id}`}>
+                                    <ListItem key={`book-${book.id}`}>
                                         <Link to={`/fictions/${book.id}`}>{book.title}</Link>
                                     </ListItem>
                                 )
@@ -162,7 +164,7 @@ export const CharacterDetail = () => {
                             <ListSubheader>As a part of the series:</ListSubheader>
                             {character.series ?
                                 character.series.map((series) => (
-                                    <ListItem key={`${series.id}`}>
+                                    <ListItem key={`series-${series.id}`}>
                                         <Link to={`/series/${series.id}`}>{series.title}</Link>
                                     </ListItem>
                                 )
@@ -184,7 +186,7 @@ export const CharacterDetail = () => {
                                 </TableHead>
                                 <TableBody>
                                     {character.associations ? character.associations.map((association) => (
-                                        <TableRow key={association.id}>
+                                        <TableRow key={`association-${association.id}`}>
                                             <TableCell component="th" scope="row">
                                                 {association.char_two ? association.char_two.name : association.char_one.name}
                                             </TableCell>

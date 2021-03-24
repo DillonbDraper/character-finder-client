@@ -40,12 +40,19 @@ export const CharacterForm = props => {
                 if (editMode) {
 
                     if (character.public_version === false) {
-                        let updatedCharacter = { ...data }
-                        updatedCharacter.public_version = false
-                        updatedCharacter.id = character.id
-                        updatedCharacter.reader_id = character.reader.id
-                        updatedCharacter.reset_queue = true
-                        updateCharacter(updatedCharacter)
+                        const formData = new FormData()
+                        formData.append('name', data.name)
+                        formData.append('image', data.image[0])
+                        formData.append('bio', data.bio)
+                        formData.append('age', data.age)
+                        formData.append('alias', data.alias)
+                        formData.append('died_on', data.died_on)
+                        formData.append('born_on', data.born_on)
+                        formData.append('public_version', false)
+                        formData.append('id', character.id)
+                        formData.append('reader_id', character.reader.id)
+                        formData.append('reset_queue', true)
+                        updateCharacter(character.id, formData)
                         history.push(`/`)
 
                     }

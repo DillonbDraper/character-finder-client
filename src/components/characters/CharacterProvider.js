@@ -83,14 +83,13 @@ export const CharacterProvider = props => {
 		.then(getCharacters)
 	}
 
-	const updateCharacter = (character) => {
-		return fetch(`http://localhost:8000/characters/${character.id}`, {
+	const updateCharacter = (id, data) => {
+		return fetch(`http://localhost:8000/characters/${id}`, {
 			method: "PUT",
 			headers: {
-				"Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
 			},
-			body: JSON.stringify(character)
+			body: data
 		})
 		.then(getCharacters)
 	}
