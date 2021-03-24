@@ -21,17 +21,20 @@ export const CharacterForm = props => {
         if (params.characterId) {
             getCharacterById(params.characterId).then(() => setEditMode(true))
         }
+
     }, [])
 
     useEffect(() => {
+        if (editMode) {
         setValue('name', character.name)
         setValue('age', character.age)
         setValue('born_on', character.born_on)
         setValue('died_on', character.died_on)
         setValue('alias', character.alias)
         setValue('bio', character.bio)
+        }
 
-    }, [editMode, character])
+    }, [editMode])
 
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>

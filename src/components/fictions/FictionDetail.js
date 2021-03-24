@@ -84,7 +84,7 @@ export const FictionDetail = () => {
                         {fiction.characters ?
                             fiction.characters.map((char) => (
                                 <ListItem key={`${char.id}`}>
-                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                    <Link to={`/characters/${char.id}`}>{char.name}</Link>
                                 </ListItem>
                             )
                             ) : ""}
