@@ -4,7 +4,7 @@ import { FictionContext } from "../fictions/FictionProvider.js"
 import { AuthorContext } from "../authors/AuthorProvider.js"
 import { SeriesContext } from "../series/SeriesProvider.js"
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { useHistory, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -23,7 +23,6 @@ export const EditQueue = () => {
     const { getSeries, seriesSet } = useContext(SeriesContext)
     const { getAuthors, authors } = useContext(AuthorContext)
   
-    const history = useHistory()
   
     const [characterValue, setCharacterValue] = useState(null)
     const [characterInputValue, setCharacterInputValue] = useState('')
@@ -229,7 +228,7 @@ export const EditQueue = () => {
               {filteredCharacters.map((character) => (
                 <StyledTableRow key={character.id}>
                   <StyledTableCell component="th" scope="row">
-                <Link to={`/characters/${character.id}`}>{`${character.name}`}</Link>
+                <Link to={`/admin-eval/${character.id}`}>{`${character.name}`}</Link>
 
                   </StyledTableCell>
                   <StyledTableCell align="right" >{character.reader ? character.reader.name : "waiting for data"}</StyledTableCell>

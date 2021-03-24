@@ -9,6 +9,7 @@ import { GenreContext } from '../genres/GenreProvider'
 import { AuthorContext } from '../authors/AuthorProvider'
 import { CharacterContext } from '../characters/CharacterProvider'
 import { SeriesContext } from '../series/SeriesProvider'
+import { useHistory } from 'react-router-dom'
 
 
 
@@ -21,6 +22,8 @@ export const FictionForm = props => {
     const { authors, getAuthors } = useContext(AuthorContext)
     const { characters, getCharacters } = useContext(CharacterContext)
     const { seriesSet, getSeries } = useContext(SeriesContext)
+
+    const history = useHistory()
 
 
 
@@ -46,9 +49,12 @@ export const FictionForm = props => {
                     }
 
                     addFiction(data).then(res => addFictionAssociations(res.id, relationshipObject))
+                    history.push('/')
                 }
 
-                else { addFiction(data) }
+                else { addFiction(data)
+                        history.push('/')
+                }
             }
             )}>
                 <TextField

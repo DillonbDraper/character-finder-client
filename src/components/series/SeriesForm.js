@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { Autocomplete } from '@material-ui/lab';
 import { SeriesContext } from './SeriesProvider';
 import { GenreContext } from '../genres/GenreProvider'
+import { useHistory } from 'react-router-dom'
 
 
 export const SeriesForm = props => {
@@ -15,12 +16,18 @@ export const SeriesForm = props => {
     const { addSeries } = useContext(SeriesContext)
     const { genres, getGenres } = useContext(GenreContext)
 
+    const history = useHistory()
+
 
     useEffect(() => getGenres(), [])
 
     return (
         <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
-            <form className="characterForm" onSubmit={handleSubmit((data) => addSeries(data))}>
+            <form className="characterForm" onSubmit={handleSubmit((data) => {
+                addSeries(data)
+                history.push('/')
+                }
+                )}>
                 <TextField
                     variant="outlined"
                     margin="normal"

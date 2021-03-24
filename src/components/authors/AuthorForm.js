@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import { AuthorContext } from './AuthorProvider';
 
@@ -11,9 +12,15 @@ export const AuthorForm = props => {
     const { register, handleSubmit } = useForm()
     const { addAuthor } = useContext(AuthorContext)
 
+    const history = useHistory()
+
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
-            <form className="characterForm" onSubmit={handleSubmit((data) => addAuthor(data))}>
+            <form className="characterForm" onSubmit={handleSubmit((data) => {
+                addAuthor(data)
+                history.push('')
+                }
+                )}>
                 <TextField
                     variant="outlined"
                     margin="normal"

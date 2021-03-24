@@ -38,6 +38,7 @@ export const CharacterDetail = () => {
         })
     }, [])
 
+
     useEffect(() => {
         console.log(secondCharacter)
         if (secondCharacter.id !== 0) {
@@ -162,7 +163,7 @@ export const CharacterDetail = () => {
                     <h1>{character.name}</h1>
                     <img style={{maxWidth: '15%', height: 200}} src={character.image ? character.image : ''}></img>
                     <Typography>AKA: {character.alias} </Typography>
-                    <Typography>Created by: {character.creators ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
+                    <Typography>Created by: {character.creators.length > 0 ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {character.age}</Typography>
                     <Typography>Born on: {character.born_on}</Typography>
                     <Typography>Died on: {character.died_on ? character.died_on : "NA"}</Typography>

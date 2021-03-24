@@ -7,7 +7,7 @@ export const CharacterProvider = props => {
 
 	const [characters, setCharacters] = useState([{ id: 0, reader: { name: '' }, works: [], creators: [], series: {} }])
 	const [filteredCharacters, setFilteredCharacters] = useState([])
-	const [character, setCharacter] = useState({})
+	const [character, setCharacter] = useState({ reader: { name: '' }, works: [], creators: [], series: [], associations: [] })
 	const [secondCharacter, setSecondCharacter] = useState({ id: 0, reader: { name: '' }, works: [], creators: [], series: [], associations: [] })
 
 
@@ -151,7 +151,6 @@ export const CharacterProvider = props => {
 			},
 			body: JSON.stringify(character)
 		})
-			.then(setCharacter)
 	}
 
 	const rejectCharacterEdit = (id, character) => {
