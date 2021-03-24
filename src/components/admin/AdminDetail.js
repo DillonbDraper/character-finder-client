@@ -23,10 +23,11 @@ export const AdminDetail = () => {
 
     return (
         <Container style={{ backgroundColor: '#cfe8fc', height: '94vh', maxWidth: '100%' }}>
-            <Container style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <Container style={{ display: 'flex', justifyContent: 'center' }}>
                 <div className="secondCharacter">
                     <h2>Old Version</h2>
                     <h4>{secondCharacter.name}</h4>
+                    {secondCharacter.image ? <img style={{maxWidth: '40%', height: '10%' }}src={secondCharacter.image} /> : "" }
                     <p>AKA: {secondCharacter.alias} </p>
                     <p>Age: {secondCharacter.age}</p>
                     <p>Born on: {secondCharacter.born_on}</p>
@@ -37,6 +38,7 @@ export const AdminDetail = () => {
                 <div className="editedCharacter">
                     <h2>New Version</h2>
                     <h4>{character.name}</h4>
+                    {character.image ? <img style={{ maxWidth: '40%', height: '10%'}} src={character.image} /> : "" }
                     <p>AKA: {character.alias} </p>
                     <p>Age: {character.age}</p>
                     <p>Born on: {character.born_on}</p>

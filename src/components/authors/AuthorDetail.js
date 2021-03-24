@@ -84,7 +84,7 @@ export const AuthorDetail = () => {
                         {author.works ?
                             author.works.map((work) => (
                                 <ListItem key={`${work.id}`}>
-                                    <Link to={`/fiction/${work.id}`}>{work.title}</Link>
+                                    <Link to={`/fictions/${work.id}`}>{work.title}</Link>
                                 </ListItem>
                             )
                             ) : ""}
@@ -95,7 +95,7 @@ export const AuthorDetail = () => {
                         {author.series ?
                             author.series.map((series) => (
                                 <ListItem key={`${series.id}`}>
-                                    <Link to={`/fiction/${series.id}`}>{series.title}</Link>
+                                    <Link to={`/series/${series.id}`}>{series.title}</Link>
                                 </ListItem>
                             )
                             ) : ""}
@@ -106,7 +106,7 @@ export const AuthorDetail = () => {
                         {author.characters ?
                             author.characters.map((char) => (
                                 <ListItem key={`${char.id}`}>
-                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                    <Link to={`/characters/${char.id}`}>{char.name}</Link>
                                 </ListItem>
                             )
                             ) : ""}

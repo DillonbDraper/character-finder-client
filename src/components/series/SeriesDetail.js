@@ -77,7 +77,7 @@ export const SeriesDetail = () => {
                         {series.works ?
                             series.works.map((work) => (
                                 <ListItem key={`${work.id}`}>
-                                    <Link to={`/fiction/${work.id}`}>{work.title}</Link>
+                                    <Link to={`/fictions/${work.id}`}>{work.title}</Link>
                                 </ListItem>
                             )
                             ) : ""}
@@ -88,7 +88,7 @@ export const SeriesDetail = () => {
                         {series.creators ?
                             series.creators.map((creator) => (
                                 <ListItem key={`${creator.id}`}>
-                                    <Link to={`/fiction/${creator.id}`}>{creator.name}</Link>
+                                    <Link to={`/authors/${creator.id}`}>{creator.name}</Link>
                                 </ListItem>
                             )
                             ) : ""}
@@ -99,7 +99,7 @@ export const SeriesDetail = () => {
                         {series.characters ?
                             series.characters.map((char) => (
                                 <ListItem key={`${char.id}`}>
-                                    <Link to={`/fiction/${char.id}`}>{char.name}</Link>
+                                    <Link to={`/characters/${char.id}`}>{char.name}</Link>
                                 </ListItem>
                             )
                             ) : ""}

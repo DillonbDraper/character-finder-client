@@ -34,13 +34,18 @@ export const CharacterDetail = () => {
 
     useEffect(() => {
         getCharacterById(params.characterId).then(() => {
-            checkForMatchOriginal(params.characterId).then(() => {
-                if (secondCharacter.age) {
-                    setPersonalView(true)
-                }
-            })
+            checkForMatchOriginal(params.characterId)
         })
     }, [])
+
+    useEffect(() => {
+        console.log(secondCharacter)
+        if (secondCharacter.id !== 0) {
+            setPersonalView(true)
+        } else {
+            setPersonalView(false)
+        }
+    }, [secondCharacter])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -101,7 +106,7 @@ export const CharacterDetail = () => {
                     <Typography>Age: {secondCharacter.age}</Typography>
                     <Typography>Born on: {secondCharacter.born_on}</Typography>
                     <Typography>Died on: {secondCharacter.died_on ? character.died_on : "NA"}</Typography>
-                    <Container style={{ paddingLeft: '50%', marginTop: '2%' }}>
+                    <Container style={{ maxWidth: '75%', marginTop: '2%', marginBottom: '2%', display: 'flex', justifyContent: 'space-between' }}>
                         <List className={classes.root} subheader={<li />}>
                             <ListSubheader>Appears in:</ListSubheader>
                             {secondCharacter.works ?
@@ -111,6 +116,18 @@ export const CharacterDetail = () => {
                                     </ListItem>
                                 )
                                 ) : ""}
+                        </List>
+                        <List className={classes.root} subheader={<li />}>
+                            <ListSubheader>As a part of the series:</ListSubheader>
+                            {secondCharacter.series ?
+                                secondCharacter.series.map((series) => (
+                                    <ListItem key={`series-${series.id}`}>
+                                        <Link to={`/series/${series.id}`}>{series.title}</Link>
+                                    </ListItem>
+                                )
+                                ) : <ListItem key={`blank-series-key`}>
+                                    <p>NA</p>
+                            </ListItem>}
                         </List>
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="simple table">

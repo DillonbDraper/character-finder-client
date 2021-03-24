@@ -13,7 +13,7 @@ function Lithub()  {
             if (localStorage.getItem("app_user")) {
                 return ( <>
                     <Navbar />
-                    <ApplicationViews />
+                    <ApplicationViews  style={{backgroundColor: '#cfe8fc' }}/>
                 </>
                 )} else {
                 return <Redirect to="/login" />
