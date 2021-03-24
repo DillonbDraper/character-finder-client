@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
 import { Button } from '@material-ui/core';
 import { useParams, useHistory } from 'react-router-dom'
+import { Input } from '@material-ui/core';
 
 
 export const CharacterForm = props => {
@@ -56,8 +57,19 @@ export const CharacterForm = props => {
                 }
 
                 else {
-                    addCharacter(data)
-                    history.push(`/characters/${character.id}`)
+                    const formData = new FormData()
+                    formData.append('name', data.name)
+                    formData.append('image', data.image[0])
+                    formData.append('bio', data.bio)
+                    formData.append('age', data.age)
+                    formData.append('alias', data.alias)
+                    formData.append('died_on', data.died_on)
+                    formData.append('born_on', data.born_on)
+                    console.log(data.image)
+
+
+                    addCharacter(formData)
+                    history.push(`/`)
                 }
             }
             )}>
@@ -147,6 +159,19 @@ export const CharacterForm = props => {
                     inputRef={register}
 
                 />
+
+                <Button
+                    variant="contained"
+                    component="label"
+                >
+                    Upload Photo?
+                <input
+                        type="file"
+                        name="image"
+                        hidden
+                        ref={register}
+                    />
+                </Button>
                 {editMode ?
                     <Button type="submit" variant="contained" color="secondary">
                         {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}

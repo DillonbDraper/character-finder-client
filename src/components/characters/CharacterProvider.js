@@ -56,10 +56,9 @@ export const CharacterProvider = props => {
 		return fetch("http://localhost:8000/characters", {
 			method: "POST",
 			headers: {
-				"Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("app_user")}`
 			},
-			body: JSON.stringify(character)
+			body: character
 		})
 		.then(getCharacters)
 	}
