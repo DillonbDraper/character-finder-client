@@ -60,7 +60,7 @@ export const CharacterProvider = props => {
 			},
 			body: character
 		})
-			.then(getCharacters)
+		.then(res => res.json())
 	}
 
 	const getCharacterById = id => {
@@ -175,14 +175,23 @@ export const CharacterProvider = props => {
 		})
 	}
 
-
+	const addCharacterAssociations = (pk, data) => {
+		return fetch(`http://localhost:8000/characters/${pk}/create_relationships`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("app_user")}`
+			},
+			body: JSON.stringify(data)
+		})
+	}
 
 
 
 	return <CharacterContext.Provider value={{
 		characters, setCharacters, character, deleteCharacter, updateCharacter, addCharacter, setCharacter, getCharacters, getCharacterById, getCharactersWithParams,
 		filteredCharacters, setFilteredCharacters, makeEditRequest, setSecondCharacter, checkForMatch, secondCharacter, approveCharacterEdit, rejectCharacterEdit, checkForMatchOriginal,
-		getUnapprovedCharacters, getUnapprovedCharactersWithParams, destroyAllPersonalVersions
+		getUnapprovedCharacters, getUnapprovedCharactersWithParams, destroyAllPersonalVersions, addCharacterAssociations
 	}}>
 		{props.children}
 	</CharacterContext.Provider>

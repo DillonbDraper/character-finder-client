@@ -1,23 +1,29 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CharacterContext } from "./CharacterProvider"
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import TextField from '@material-ui/core/TextField';
 import { Container } from '@material-ui/core'
 import { Button } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab'
 import { useParams, useHistory } from 'react-router-dom'
+import { FictionContext } from '../fictions/FictionProvider'
+import { SeriesContext } from '../series/SeriesProvider'
 import { Input } from '@material-ui/core';
 
 
 export const CharacterForm = props => {
 
-    const { register, handleSubmit, setValue } = useForm()
-    const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter } = useContext(CharacterContext)
+    const { register, handleSubmit, setValue, control } = useForm()
+    const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter, addCharacterAssociations } = useContext(CharacterContext)
+    const { getFictions, fictions } = useContext(FictionContext)
+    const { getSeries, seriesSet } = useContext(SeriesContext)
     const params = useParams()
     const history = useHistory()
 
     const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
+        getFictions().then(getSeries)
         if (params.characterId) {
             getCharacterById(params.characterId).then(() => setEditMode(true))
         }
@@ -25,13 +31,16 @@ export const CharacterForm = props => {
     }, [])
 
     useEffect(() => {
+    }, [])
+
+    useEffect(() => {
         if (editMode) {
-        setValue('name', character.name)
-        setValue('age', character.age)
-        setValue('born_on', character.born_on)
-        setValue('died_on', character.died_on)
-        setValue('alias', character.alias)
-        setValue('bio', character.bio)
+            setValue('name', character.name)
+            setValue('age', character.age)
+            setValue('born_on', character.born_on)
+            setValue('died_on', character.died_on)
+            setValue('alias', character.alias)
+            setValue('bio', character.bio)
         }
 
     }, [editMode])
@@ -75,6 +84,16 @@ export const CharacterForm = props => {
                 }
 
                 else {
+                    let relationshipObject = {}
+                    if ( data.fictions || data.series) {
+                        if (data.fictions) {
+                            relationshipObject.fictions = data.fictions
+                        }
+                        if (data.series) {
+                            relationshipObject.series = data.series
+                        }
+
+                    }
                     const formData = new FormData()
                     formData.append('name', data.name)
                     formData.append('image', data.image[0])
@@ -86,7 +105,10 @@ export const CharacterForm = props => {
                     console.log(data.image)
 
 
-                    addCharacter(formData)
+                    addCharacter(formData).then(res => {
+                        console.log(res)
+                        addCharacterAssociations(res.id, relationshipObject)
+                    })
                     history.push(`/`)
                 }
             }
@@ -178,6 +200,52 @@ export const CharacterForm = props => {
 
                 />
 
+
+
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={fictions}
+                            style={{ marginTop: '1%', marginBottom: '1%' }}
+                            multiple={true}
+                            required
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Fiction(s)"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="fictions"
+                    control={control}
+                />
+
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={seriesSet}
+                            style={{ marginTop: '1%', marginBottom: '1%' }}
+                            required={false}
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Series"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="series"
+                    control={control}
+                />
                 <Button
                     variant="contained"
                     component="label"
@@ -190,6 +258,7 @@ export const CharacterForm = props => {
                         ref={register}
                     />
                 </Button>
+
                 {editMode ?
                     <Button type="submit" variant="contained" color="secondary">
                         {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}

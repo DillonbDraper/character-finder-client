@@ -17,6 +17,8 @@ export const AuthorForm = props => {
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
+                console.log(data)
+
                 addAuthor(data)
                 history.push('')
                 }
