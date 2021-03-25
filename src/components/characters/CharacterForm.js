@@ -12,7 +12,7 @@ import { SeriesContext } from '../series/SeriesProvider'
 
 export const CharacterForm = props => {
 
-    const { register, handleSubmit, setValue, control } = useForm()
+    const { register, handleSubmit, setValue, control, watch } = useForm()
     const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter, addCharacterAssociations, characters, getCharacters } = useContext(CharacterContext)
     const { getFictions, fictions } = useContext(FictionContext)
     const { getSeries, seriesSet } = useContext(SeriesContext)
@@ -21,6 +21,7 @@ export const CharacterForm = props => {
 
     const [editMode, setEditMode] = useState(false)
 
+    const watchUpload = watch("image", false)
 
     useEffect(() => {
         getFictions().then(getSeries).then(getCharacters)
@@ -278,6 +279,7 @@ export const CharacterForm = props => {
                     InputLabelProps={editMode ? { shrink: true } : {}}
                     fullWidth
                     id="relationship"
+                    disabled={watchUpload ? false : true}
                     label="Brief description of relationship between the two characters"
                     name="description"
                     autoFocus

@@ -99,9 +99,9 @@ export const CharacterDetail = () => {
             }
             { personalView ?
                 <Container maxWidth="xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <h2>My version of</h2>
-                    <h1>{secondCharacter.name}</h1>
-                    <img style={{maxWidth: '15%', height: 200}} src={secondCharacter.image ? secondCharacter.image : ''}></img>
+                    <h3>My version of</h3>
+                    <h2>{secondCharacter.name}</h2>
+                    <img style={{maxWidth: '15%', height: 200}} src={secondCharacter.image ? secondCharacter.image : 'http://localhost:8000/media/blank-profile-picture-973460_1280.png'}></img>
                     <Typography>AKA: {secondCharacter.alias} </Typography>
                     <Typography>Created by: {secondCharacter.creators[0] ? <Link to={`/authors/${secondCharacter.creators[0].id}`}>{secondCharacter.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {secondCharacter.age}</Typography>
@@ -130,13 +130,15 @@ export const CharacterDetail = () => {
                                     <p>NA</p>
                             </ListItem>}
                         </List>
-                        <TableContainer component={Paper}>
+                    </Container>
+
+                        <Typography style={{alignSelf: 'flex-start'}}>Character Relationship:</Typography>
+                        <TableContainer style={{maxWidth: '55%', alignSelf: 'flex-start'}} component={Paper}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Related Characters</TableCell>
-                                        <TableCell align="right">Characters</TableCell>
-                                        <TableCell align="right">Relationships</TableCell>
+                                        <TableCell>Character</TableCell>
+                                        <TableCell >Relationship</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -145,23 +147,23 @@ export const CharacterDetail = () => {
                                             <TableCell component="th" scope="row">
                                                 {association.char_two ? association.char_two.name : association.char_one.name}
                                             </TableCell>
-                                            <TableCell align="right">{association.description ? association.description : ""}</TableCell>
+                                            <TableCell>{association.description ? association.description : ""}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
 
-                    </Container>
                     <Typography style={{ marginTop: '1%' }}>Bio: {secondCharacter.bio} </Typography>
                     <Button color="primary" variant="contained" style={{ alignSelf: 'flex-start', marginTop: '3%' }} onClick={() => history.push(`/character-form/${secondCharacter.id}`)}>Revise Edits</Button>
                 </Container>
 
                 :
+
                 <Container maxWidth="xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <h2>Public Version of </h2>
-                    <h1>{character.name}</h1>
-                    <img style={{maxWidth: '15%', height: 200}} src={character.image ? character.image : ''}></img>
+                    <h3>Public Version of </h3>
+                    <h2>{character.name}</h2>
+                    <img style={{maxWidth: '15%', height: 200}} src={character.image ? character.image : 'http://localhost:8000/media/blank-profile-picture-973460_1280.png'}></img>
                     <Typography>AKA: {character.alias} </Typography>
                     <Typography>Created by: {character.creators.length > 0 ? <Link to={`/authors/${character.creators[0].id}`}>{character.creators[0].name}</Link> : 'NA'} </Typography>
                     <Typography>Age: {character.age}</Typography>
@@ -193,12 +195,12 @@ export const CharacterDetail = () => {
 
 
                                     </Container>
-                                    <Typography style={{alignSelf: 'flex-start'}}>Known Character Relationships:</Typography>
+                                    <Typography style={{alignSelf: 'flex-start'}}>Character Relationship:</Typography>
                         <TableContainer style={{maxWidth: '55%', alignSelf: 'flex-start'}} component={Paper}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell >Characters</TableCell>
+                                        <TableCell >Character</TableCell>
                                         <TableCell>Relationship</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -214,7 +216,7 @@ export const CharacterDetail = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    <Typography style={{ marginTop: '1%', alignSelf: "flex-start" }}>Bio: {character.bio} </Typography>
+                    <Typography style={{ marginTop: '1%' }}>Bio: {character.bio} </Typography>
                     {
                         !secondCharacter.age ?
                             <Button color="primary" style={{ alignSelf: 'flex-start', marginTop: '1%' }} variant="contained" onClick={() => history.push(`/character-form/${character.id}`)}>Enter Edit Mode</Button>
@@ -227,6 +229,10 @@ export const CharacterDetail = () => {
             {(localStorage.getItem("isAdmin") === 'true') ?
                 <Button style={{ marginTop: '1%', marginLeft: '1%' }} color="primary" variant="contained" onClick={handleClickOpen}>Delete Character</Button>
                 : ''}
+
+                <div style={{height: 20}}>
+
+                </div>
             <Dialog
                 open={open}
                 onClose={handleClose}
