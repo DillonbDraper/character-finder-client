@@ -102,6 +102,7 @@ export const CharacterProvider = props => {
 			},
 			body: data
 		})
+		.then(res => res.json())
 	}
 
 	const checkForMatch = id => {

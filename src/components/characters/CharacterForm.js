@@ -8,7 +8,6 @@ import { Autocomplete } from '@material-ui/lab'
 import { useParams, useHistory } from 'react-router-dom'
 import { FictionContext } from '../fictions/FictionProvider'
 import { SeriesContext } from '../series/SeriesProvider'
-import { Input } from '@material-ui/core';
 
 
 export const CharacterForm = props => {
@@ -21,6 +20,8 @@ export const CharacterForm = props => {
     const history = useHistory()
 
     const [editMode, setEditMode] = useState(false)
+    const [seriesValue, setSeriesValue] = useState("")
+
 
     useEffect(() => {
         getFictions().then(getSeries)
@@ -48,8 +49,18 @@ export const CharacterForm = props => {
     return (
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
+                let relationshipObject = {}
+                if (data.fictions || data.series) {
+                    if (data.fictions) {
+                        relationshipObject.fictions = data.fictions
+                    }
+                    if (data.series) {
+                        relationshipObject.series = data.series
+                    }
 
+                }
                 if (editMode) {
+
 
                     if (character.public_version === false) {
                         const formData = new FormData()
@@ -77,23 +88,14 @@ export const CharacterForm = props => {
                         formData.append('alias', data.alias)
                         formData.append('died_on', data.died_on)
                         formData.append('born_on', data.born_on)
-                        makeEditRequest(params.characterId, formData)
+                        makeEditRequest(params.characterId, formData).then(res => addCharacterAssociations(res.id, relationshipObject))
                         setEditMode(false)
                         history.push(`/characters/${character.id}`)
                     }
                 }
 
                 else {
-                    let relationshipObject = {}
-                    if ( data.fictions || data.series) {
-                        if (data.fictions) {
-                            relationshipObject.fictions = data.fictions
-                        }
-                        if (data.series) {
-                            relationshipObject.series = data.series
-                        }
 
-                    }
                     const formData = new FormData()
                     formData.append('name', data.name)
                     formData.append('image', data.image[0])
@@ -240,7 +242,7 @@ export const CharacterForm = props => {
                                     variant="outlined"
                                 />
                             )}
-                            onChange={(_, data) => props.onChange(data)}
+                        onChange={(_, data) => props.onChange(data)}
                         />
                     )}
                     name="series"
