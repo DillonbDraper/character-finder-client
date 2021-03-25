@@ -13,7 +13,7 @@ import { SeriesContext } from '../series/SeriesProvider'
 export const CharacterForm = props => {
 
     const { register, handleSubmit, setValue, control } = useForm()
-    const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter, addCharacterAssociations } = useContext(CharacterContext)
+    const { addCharacter, getCharacterById, character, makeEditRequest, updateCharacter, addCharacterAssociations, characters, getCharacters } = useContext(CharacterContext)
     const { getFictions, fictions } = useContext(FictionContext)
     const { getSeries, seriesSet } = useContext(SeriesContext)
     const params = useParams()
@@ -23,7 +23,7 @@ export const CharacterForm = props => {
 
 
     useEffect(() => {
-        getFictions().then(getSeries)
+        getFictions().then(getSeries).then(getCharacters)
         if (params.characterId) {
             getCharacterById(params.characterId).then(() => setEditMode(true))
         }
@@ -49,12 +49,16 @@ export const CharacterForm = props => {
         <Container maxWidth="xl" style={{ backgroundColor: '#cfe8fc', height: '94vh', display: 'flex' }}>
             <form className="characterForm" onSubmit={handleSubmit((data) => {
                 let relationshipObject = {}
-                if (data.fictions || data.series) {
+                if (data.fictions || data.series || data.characters) {
                     if (data.fictions) {
                         relationshipObject.fictions = data.fictions
                     }
                     if (data.series) {
                         relationshipObject.series = data.series
+                    } 
+                    if (data.characters) {
+                        relationshipObject.characters = data.characters
+                        relationshipObject.description = data.description
                     }
 
                 }
@@ -213,7 +217,7 @@ export const CharacterForm = props => {
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label="Fiction(s)"
+                                    label="Fiction(s) (required)"
                                     variant="outlined"
                                 />
                             )}
@@ -235,41 +239,77 @@ export const CharacterForm = props => {
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    label="Series"
+                                    label="Series (optional)"
                                     variant="outlined"
                                 />
                             )}
-                        onChange={(_, data) => props.onChange(data)}
+                            onChange={(_, data) => props.onChange(data)}
                         />
                     )}
                     name="series"
                     control={control}
                 />
-                <div className="charFormButtons" style={{display: 'flex', flexDirection: 'column', maxWidth: '13%'}}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    component="label"
-                    style={{marginBottom: '10%'}}
-                >
-                    Upload Photo?
-                <input
-                        type="file"
-                        name="image"
-                        hidden
-                        ref={register}
-                    />
-                </Button>
 
-                {editMode ?
-                    <Button type="submit" variant="contained" color="secondary">
-                        {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}
+                <Controller
+                    render={(props) => (
+                        <Autocomplete
+                            {...props}
+                            options={characters}
+                            style={{ marginTop: '1%', marginBottom: '1%' }}
+                            required={false}
+                            getOptionLabel={(option) => option.name}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Characters (optional)"
+                                    variant="outlined"
+                                />
+                            )}
+                            onChange={(_, data) => props.onChange(data)}
+                        />
+                    )}
+                    name="characters"
+                    control={control}
+                />
+
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    InputLabelProps={editMode ? { shrink: true } : {}}
+                    fullWidth
+                    id="relationship"
+                    label="Brief description of relationship between the two characters"
+                    name="description"
+                    autoFocus
+                    inputRef={register}
+
+                />
+
+                <div className="charFormButtons" style={{ display: 'flex', flexDirection: 'column', maxWidth: '13%' }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        component="label"
+                        style={{ marginBottom: '10%' }}
+                    >
+                        Upload Photo?
+                <input
+                            type="file"
+                            name="image"
+                            hidden
+                            ref={register}
+                        />
                     </Button>
 
-                    :
+                    {editMode ?
+                        <Button type="submit" variant="contained" color="secondary">
+                            {character.public_version === false ? 'Resubmit Edit' : 'Submit Edit'}
+                        </Button>
 
-                    <Button type="submit" variant="contained" color="secondary">
-                        Submit
+                        :
+
+                        <Button type="submit" variant="contained" color="secondary">
+                            Submit
                 </Button>}
                 </div>
             </form>
