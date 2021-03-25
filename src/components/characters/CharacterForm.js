@@ -20,7 +20,6 @@ export const CharacterForm = props => {
     const history = useHistory()
 
     const [editMode, setEditMode] = useState(false)
-    const [seriesValue, setSeriesValue] = useState("")
 
 
     useEffect(() => {
@@ -75,7 +74,7 @@ export const CharacterForm = props => {
                         formData.append('id', character.id)
                         formData.append('reader_id', character.reader.id)
                         formData.append('reset_queue', true)
-                        updateCharacter(character.id, formData)
+                        updateCharacter(character.id, formData).then(() => addCharacterAssociations(character.id, relationshipObject))
                         history.push(`/`)
 
                     }
@@ -104,11 +103,9 @@ export const CharacterForm = props => {
                     formData.append('alias', data.alias)
                     formData.append('died_on', data.died_on)
                     formData.append('born_on', data.born_on)
-                    console.log(data.image)
 
 
                     addCharacter(formData).then(res => {
-                        console.log(res)
                         addCharacterAssociations(res.id, relationshipObject)
                     })
                     history.push(`/`)
@@ -248,9 +245,12 @@ export const CharacterForm = props => {
                     name="series"
                     control={control}
                 />
+                <div className="charFormButtons" style={{display: 'flex', flexDirection: 'column', maxWidth: '13%'}}>
                 <Button
                     variant="contained"
+                    color="primary"
                     component="label"
+                    style={{marginBottom: '10%'}}
                 >
                     Upload Photo?
                 <input
@@ -271,7 +271,7 @@ export const CharacterForm = props => {
                     <Button type="submit" variant="contained" color="secondary">
                         Submit
                 </Button>}
-
+                </div>
             </form>
 
         </Container>
