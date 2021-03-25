@@ -79,7 +79,7 @@ export const CharacterForm = props => {
                         formData.append('reader_id', character.reader.id)
                         formData.append('reset_queue', true)
                         updateCharacter(character.id, formData).then(() => addCharacterAssociations(character.id, relationshipObject))
-                        history.push(`/`)
+                        history.push(`/character/${character.id}`)
 
                     }
                     else {
