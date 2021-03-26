@@ -70,16 +70,18 @@ export const FictionDetail = () => {
             <Container maxWidth="xl" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <h1>{fiction.title}</h1>
                 <Typography>Published on: {fiction.date_published} </Typography>
-                <Typography>By: {fiction.creators ? fiction.creators.map(creator=> {
+                <Typography>By: {fiction.creators ? fiction.creators.map(creator => {
                     return <Link to={`/authors/${creator.id}`}>{creator.name}</Link>
-                }): "Unknown"} </Typography>
+                }) : "Unknown"} </Typography>
                 <Typography>Genre: {fiction.genre.name}</Typography>
-                <Typography>Characters: {fiction.characters ? fiction.characters[0].name : "Unavailable"}</Typography>
+                <Typography>Characters: {fiction.characters ? fiction.characters.map(char => {
+                    return <Link to={`/characters/${char.id}`}>{char.name}</Link>
+                }) : "Unavailable"} </Typography>
                 <Typography>Part of the series: {fiction.series[0] ? <Link to={`/series/${fiction.series[0].id}`}>{fiction.series[0].title}</Link> : "NA"} </Typography>
                 <Typography style={{ alignSelf: 'flex-start', marginTop: '2%' }}>Description: {fiction.description}</Typography>
 
-<Container style={{paddingLeft: '50%', marginTop: '2%'}}>
-                <List className={classes.root} subheader={<li />}>
+                <Container style={{ paddingLeft: '50%', marginTop: '2%' }}>
+                    <List className={classes.root} subheader={<li />}>
                         <ListSubheader>Characters appearing in this work:</ListSubheader>
                         {fiction.characters ?
                             fiction.characters.map((char) => (
@@ -89,7 +91,7 @@ export const FictionDetail = () => {
                             )
                             ) : ""}
                     </List>
-</Container>
+                </Container>
             </Container>
             {(localStorage.getItem("isAdmin") === 'true') ?
                 <Button style={{ marginTop: '2%', marginLeft: '1%' }} color="primary" variant="contained" onClick={handleClickOpen} >Delete Book</Button>
