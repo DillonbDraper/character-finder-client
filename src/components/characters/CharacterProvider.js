@@ -163,7 +163,6 @@ export const CharacterProvider = props => {
 			},
 			body: JSON.stringify(character)
 		})
-			.then(setCharacter)
 	}
 
 	const destroyAllPersonalVersions = id => {

@@ -41,7 +41,7 @@ export const AdminDetail = () => {
                     <p>Appears in the series:  {secondCharacter.series[0] ? secondCharacter.series[0].title : "NA"}</p>
                     <p>Has Character relationship:  {secondCharacter.associations[0] ? secondCharacter.associations[0].char_one ? secondCharacter.associations[0].char_one.name :
                     secondCharacter.associations[0].char_two.name : "NA"}</p>
-                    <p>Relationship description: {secondCharacter.associations[0] ? secondCharacter.associations[0].description : "NA"}</p>
+                    <p style={{maxWidth: '60%'}}>Relationship description: {secondCharacter.associations[0] ? secondCharacter.associations[0].description : "NA"}</p>
                     <Button color="primary" variant="contained"
                     onClick={() => {
                         rejectCharacterEdit(secondCharacter.id, character)
